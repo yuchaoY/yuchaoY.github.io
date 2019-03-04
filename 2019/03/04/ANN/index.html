@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="One Piece">
 <meta property="og:description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-04T09:38:24.179Z">
+<meta property="og:updated_time" content="2019-03-04T12:30:00.323Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Approximate Nearest Neighbor Search 初探">
 <meta name="twitter:description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
@@ -365,7 +365,7 @@
 <li>PQ</li>
 <li>Graph</li>
 </ol>
-<p>其中树和哈希是基于空间分割的思想，在检索的过程中一般起到起到降低N的作用，PQ则是一般减小D，当然也不是绝对的，比如IVFPQ就是ND都会减小。</p>
+<p>其中树和哈希是基于空间分割的思想，和基于图的方法一样在检索的过程中一般起到降低N的作用，PQ则是一般减小D，当然也不是绝对的，比如IVFPQ就是ND都会减小。</p>
 
       
     </div>
