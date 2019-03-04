@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="">
+<html class="theme-next pisces use-motion" lang="">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="ANN,">
 
 
 
@@ -79,14 +79,18 @@
 
 
 
+<meta name="description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
+<meta name="keywords" content="ANN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ANN">
+<meta property="og:title" content="Approximate Nearest Neighbor Search 初探">
 <meta property="og:url" content="http://yoursite.com/2019/03/04/ANN/index.html">
 <meta property="og:site_name" content="One Piece">
+<meta property="og:description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-04T08:19:52.734Z">
+<meta property="og:updated_time" content="2019-03-04T09:38:24.179Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ANN">
+<meta name="twitter:title" content="Approximate Nearest Neighbor Search 初探">
+<meta name="twitter:description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
 
 
 
@@ -94,7 +98,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Pisces',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -122,7 +126,7 @@
 
 
 
-  <title>ANN | One Piece</title>
+  <title>Approximate Nearest Neighbor Search 初探 | One Piece</title>
   
 
 
@@ -276,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ANN</h1>
+          <h1 class="post-title" itemprop="name headline">Approximate Nearest Neighbor Search 初探</h1>
         
 
         <div class="post-meta">
@@ -298,6 +302,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ANN/" itemprop="url" rel="index">
+                    <span itemprop="name">ANN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -331,7 +357,16 @@
       
 
       
-        
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。</p>
+<p>ANN主要思想是通过损失一部分检索精度来尽可能的提升检索速度。目前主流的方法可分为以下大致4类。</p>
+<ol>
+<li>Tree</li>
+<li>Hash</li>
+<li>PQ</li>
+<li>Graph</li>
+</ol>
+<p>其中树和哈希是基于空间分割的思想，在检索的过程中一般起到起到降低N的作用，PQ则是一般减小D，当然也不是绝对的，比如IVFPQ就是ND都会减小。</p>
+
       
     </div>
     
@@ -345,6 +380,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ANN/" rel="tag"># ANN</a>
+          
+        </div>
       
 
       
@@ -415,8 +456,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -440,7 +490,25 @@
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
             
 
           </nav>
@@ -454,12 +522,29 @@
 
           
           
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=31010566&auto=1&height=66"></iframe>
 
           
 
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -492,7 +577,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
 
 
 
@@ -611,6 +696,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
