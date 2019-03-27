@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="">
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Introductionref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes">
+<meta name="description" content="Introductionref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes Kernel\min\limits_{B, R}\left\| B-XWR \right\|_F^2其中 $R \in R^{c \times c}​$ 是旋转矩阵，$B \in R^{n \times c}​$ 是超立方">
 <meta name="keywords" content="Procrustean,Binary Code,Similarity Preserving">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ITQ">
 <meta property="og:url" content="http://yoursite.com/2019/03/13/ITQ/index.html">
 <meta property="og:site_name" content="One Piece">
-<meta property="og:description" content="Introductionref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes">
+<meta property="og:description" content="Introductionref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes Kernel\min\limits_{B, R}\left\| B-XWR \right\|_F^2其中 $R \in R^{c \times c}​$ 是旋转矩阵，$B \in R^{n \times c}​$ 是超立方">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-13T14:55:10.835Z">
+<meta property="og:updated_time" content="2019-03-27T14:46:50.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ITQ">
-<meta name="twitter:description" content="Introductionref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes">
+<meta name="twitter:description" content="Introductionref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes Kernel\min\limits_{B, R}\left\| B-XWR \right\|_F^2其中 $R \in R^{c \times c}​$ 是旋转矩阵，$B \in R^{n \times c}​$ 是超立方">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>ITQ | One Piece</title>
+  <title>ITQ | One Piece</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -145,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -369,6 +369,11 @@
 
       
         <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes</p>
+<h2 id="Kernel"><a href="#Kernel" class="headerlink" title="Kernel"></a>Kernel</h2><script type="math/tex; mode=display">\min\limits_{B, R}\left\| B-XWR \right\|_F^2</script><p>其中 $R \in R^{c \times c}​$ 是旋转矩阵，$B \in R^{n \times c}​$ 是超立方体的顶点坐标, $W \in R^{d \times c}​$ 表示投影矩阵；</p>
+<p><em>Step1.</em> 将数据集先用PCA等降维方法将数据从原始 $d​$ 维空间降维($W​$)至 $c​$ 维空间；</p>
+<p><em>Step2.</em> 对 $c$ 维空间中的样本点进行旋转($R$)，同时将旋转后的样本点映射到 $c$ 维空间某一立方体的顶点( $B$, 共 $2^c$ 个顶点)  ；</p>
+<p><em>Step3.</em> 迭代更新<em>Step2</em> 中的$R\&amp;B​$ , 使得映射之后的量化误差最小。</p>
+<h2 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h2><p>$W$ 能否自己学？</p>
 
       
     </div>
@@ -512,7 +517,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -546,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kernel"><span class="nav-number">2.</span> <span class="nav-text">Kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Idea"><span class="nav-number">3.</span> <span class="nav-text">Idea</span></a></li></ol></div>
             
 
           </div>
@@ -773,6 +778,45 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
 
   
 
