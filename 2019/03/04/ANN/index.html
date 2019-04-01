@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="IntroductionApproximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X}">
+<meta name="description" content="Approximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X} d(q, x)最朴素的">
 <meta name="keywords" content="ANN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Approximate Nearest Neighbor Search 初探">
 <meta property="og:url" content="http://yoursite.com/2019/03/04/ANN/index.html">
 <meta property="og:site_name" content="One Piece">
-<meta property="og:description" content="IntroductionApproximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X}">
+<meta property="og:description" content="Approximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X} d(q, x)最朴素的">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-01T07:47:10.045Z">
+<meta property="og:updated_time" content="2019-04-01T07:50:06.552Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Approximate Nearest Neighbor Search 初探">
-<meta name="twitter:description" content="IntroductionApproximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X}">
+<meta name="twitter:description" content="Approximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X} d(q, x)最朴素的">
 
 
 
@@ -357,7 +357,7 @@
       
 
       
-        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h2 id="Approximate-Nearest-Neighbor-Search-初探"><a href="#Approximate-Nearest-Neighbor-Search-初探" class="headerlink" title="Approximate Nearest Neighbor Search 初探"></a>Approximate Nearest Neighbor Search 初探</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。</p>
+        <h2 id="Approximate-Nearest-Neighbor-Search-初探"><a href="#Approximate-Nearest-Neighbor-Search-初探" class="headerlink" title="Approximate Nearest Neighbor Search 初探"></a>Approximate Nearest Neighbor Search 初探</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。</p>
 <script type="math/tex; mode=display">NN(q) = \arg \min\limits_{x \in X} d(q, x)</script><p>最朴素的办法,我们可以使用 <strong><em>Exact Search</em></strong>，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间，数据规模稍大（million以上）的情况下便无法应用上。</p>
 <p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法可分为以下大致4类：</p>
 <ol>
@@ -542,7 +542,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Approximate-Nearest-Neighbor-Search-初探"><span class="nav-number">2.</span> <span class="nav-text">Approximate Nearest Neighbor Search 初探</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Approximate-Nearest-Neighbor-Search-初探"><span class="nav-number">1.</span> <span class="nav-text">Approximate Nearest Neighbor Search 初探</span></a></li></ol></div>
             
 
           </div>
