@@ -675,7 +675,7 @@
         
           
             <h2 id="Approximate-Nearest-Neighbor-Search-初探"><a href="#Approximate-Nearest-Neighbor-Search-初探" class="headerlink" title="Approximate Nearest Neighbor Search 初探"></a>Approximate Nearest Neighbor Search 初探</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。</p>
-<script type="math/tex; mode=display">NN(q) = \arg \min\limits_{x \in X} d(q, x)</script><p>最朴素的办法,我们可以使用 <strong><em>Exact Search</em></strong>，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间，数据规模稍大（million以上）的情况下便无法应用上。</p>
+<script type="math/tex; mode=display">NN(q) = \arg \min\limits_{x \in X} d(q, x)</script><p>最朴素的办法,我们可以使用 <strong><em>Exact Search</em></strong>，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间，数据规模稍大（million）的情况下便无法应用上。</p>
 <p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法可分为以下大致4类：</p>
 <ol>
 <li>Tree: KD-Tree等；</li>
@@ -685,7 +685,7 @@
 <li>auxiliary：IMI等。</li>
 </ol>
 <p>其中Tree、Hash和Quantization Based的方法是基于空间划分的思想，将空间划分成<em>cell/Voronoi</em>，然后利用上某些辅助的索引结构，可以在检索的过程中起到同时降低 $N$ 和 $D$ 来减少计算复杂度，如IVFPQ(PQ + Inverted Index)。</p>
-<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。检索过程一般是通过降低 $N​$ 来减少计算法复杂度。</p>
+<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。检索过程一般是通过降低 $N$ 来减少计算法复杂度。</p>
 
           
         
