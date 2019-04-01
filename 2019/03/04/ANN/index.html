@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
+<meta name="description" content="IntroductionApproximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X}">
 <meta name="keywords" content="ANN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Approximate Nearest Neighbor Search 初探">
 <meta property="og:url" content="http://yoursite.com/2019/03/04/ANN/index.html">
 <meta property="og:site_name" content="One Piece">
-<meta property="og:description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
+<meta property="og:description" content="IntroductionApproximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X}">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-13T14:58:03.700Z">
+<meta property="og:updated_time" content="2019-04-01T07:47:10.045Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Approximate Nearest Neighbor Search 初探">
-<meta name="twitter:description" content="Introduction对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。 ANN主要思想是通过损失一部分检索精度来尽可能的提升检索">
+<meta name="twitter:description" content="IntroductionApproximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。 NN(q) = \arg \min\limits_{x \in X}">
 
 
 
@@ -357,15 +357,18 @@
       
 
       
-        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>对于一个检索任务：给定一个query q，需要在规模为ND的dataset中找出离q最近的k个样本，一般使用L2距离。最朴素的办法,我们可以使用Exact Search，这样一定能找到离q最近这k个样本，但其时间的复杂度是O(ND)，空间复杂度O(ND)，这限制了在数据规模比较大（million以上）的情况下的使用。</p>
-<p>ANN主要思想是通过损失一部分检索精度来尽可能的提升检索速度。目前主流的方法可分为以下大致4类。</p>
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h2 id="Approximate-Nearest-Neighbor-Search-初探"><a href="#Approximate-Nearest-Neighbor-Search-初探" class="headerlink" title="Approximate Nearest Neighbor Search 初探"></a>Approximate Nearest Neighbor Search 初探</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。</p>
+<script type="math/tex; mode=display">NN(q) = \arg \min\limits_{x \in X} d(q, x)</script><p>最朴素的办法,我们可以使用 <strong><em>Exact Search</em></strong>，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间，数据规模稍大（million以上）的情况下便无法应用上。</p>
+<p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法可分为以下大致4类：</p>
 <ol>
-<li>Tree</li>
-<li>Hash</li>
-<li>PQ</li>
-<li>Graph</li>
+<li>Tree: KD-Tree等；</li>
+<li>Hash: LSH等；</li>
+<li>Quantization: PQ, OPQ, LOPQ等；</li>
+<li>Graph: HNSW, NSG等;</li>
+<li>auxiliary：IMI等。</li>
 </ol>
-<p>其中树和哈希是基于空间分割的思想，和基于图的方法一样在检索的过程中一般起到降低N的作用，PQ则是一般减小D，当然也不是绝对的，比如IVFPQ就是ND都会减小。</p>
+<p>其中Tree、Hash和Quantization Based的方法是基于空间划分的思想，将空间划分成<em>cell/Voronoi</em>，然后利用上某些辅助的索引结构，可以在检索的过程中起到同时降低 $N$ 和 $D$ 来减少计算复杂度，如IVFPQ(PQ + Inverted Index)。</p>
+<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。检索过程一般是通过降低 $N​$ 来减少计算法复杂度。</p>
 
       
     </div>
@@ -539,7 +542,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Approximate-Nearest-Neighbor-Search-初探"><span class="nav-number">2.</span> <span class="nav-text">Approximate Nearest Neighbor Search 初探</span></a></li></ol></div>
             
 
           </div>
