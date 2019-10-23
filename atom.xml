@@ -5,9 +5,9 @@
   <subtitle>One Piece</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://yuchaoy.github.io/"/>
   <updated>2019-04-02T13:33:21.448Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://yuchaoy.github.io/</id>
   
   <author>
     <name>ZORO</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>HNSW</title>
-    <link href="http://yoursite.com/2019/04/02/HNSW/"/>
-    <id>http://yoursite.com/2019/04/02/HNSW/</id>
+    <link href="https://yuchaoy.github.io/2019/04/02/HNSW/"/>
+    <id>https://yuchaoy.github.io/2019/04/02/HNSW/</id>
     <published>2019-04-02T13:26:15.000Z</published>
     <updated>2019-04-02T13:33:21.448Z</updated>
     
@@ -36,19 +36,19 @@
     </summary>
     
     
-      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
     
-      <category term="Graph" scheme="http://yoursite.com/categories/ANN/Graph/"/>
+      <category term="Graph" scheme="https://yuchaoy.github.io/categories/ANN/Graph/"/>
     
     
-      <category term="HNSW" scheme="http://yoursite.com/tags/HNSW/"/>
+      <category term="HNSW" scheme="https://yuchaoy.github.io/tags/HNSW/"/>
     
   </entry>
   
   <entry>
     <title>ITQ</title>
-    <link href="http://yoursite.com/2019/03/13/ITQ/"/>
-    <id>http://yoursite.com/2019/03/13/ITQ/</id>
+    <link href="https://yuchaoy.github.io/2019/03/13/ITQ/"/>
+    <id>https://yuchaoy.github.io/2019/03/13/ITQ/</id>
     <published>2019-03-13T14:44:15.000Z</published>
     <updated>2019-03-27T14:46:50.488Z</updated>
     
@@ -65,23 +65,23 @@
     </summary>
     
     
-      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
     
-      <category term="Quantization" scheme="http://yoursite.com/categories/ANN/Quantization/"/>
+      <category term="Quantization" scheme="https://yuchaoy.github.io/categories/ANN/Quantization/"/>
     
     
-      <category term="Procrustean" scheme="http://yoursite.com/tags/Procrustean/"/>
+      <category term="Procrustean" scheme="https://yuchaoy.github.io/tags/Procrustean/"/>
     
-      <category term="Binary Code" scheme="http://yoursite.com/tags/Binary-Code/"/>
+      <category term="Binary Code" scheme="https://yuchaoy.github.io/tags/Binary-Code/"/>
     
-      <category term="Similarity Preserving" scheme="http://yoursite.com/tags/Similarity-Preserving/"/>
+      <category term="Similarity Preserving" scheme="https://yuchaoy.github.io/tags/Similarity-Preserving/"/>
     
   </entry>
   
   <entry>
     <title>IVFPQ</title>
-    <link href="http://yoursite.com/2019/03/12/IVFPQ/"/>
-    <id>http://yoursite.com/2019/03/12/IVFPQ/</id>
+    <link href="https://yuchaoy.github.io/2019/03/12/IVFPQ/"/>
+    <id>https://yuchaoy.github.io/2019/03/12/IVFPQ/</id>
     <published>2019-03-12T14:19:09.000Z</published>
     <updated>2019-03-13T14:55:54.771Z</updated>
     
@@ -98,25 +98,25 @@
     </summary>
     
     
-      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
     
-      <category term="Quantization" scheme="http://yoursite.com/categories/ANN/Quantization/"/>
+      <category term="Quantization" scheme="https://yuchaoy.github.io/categories/ANN/Quantization/"/>
     
-      <category term="PQ" scheme="http://yoursite.com/categories/ANN/Quantization/PQ/"/>
+      <category term="PQ" scheme="https://yuchaoy.github.io/categories/ANN/Quantization/PQ/"/>
     
     
-      <category term="VQ" scheme="http://yoursite.com/tags/VQ/"/>
+      <category term="VQ" scheme="https://yuchaoy.github.io/tags/VQ/"/>
     
-      <category term="PQ" scheme="http://yoursite.com/tags/PQ/"/>
+      <category term="PQ" scheme="https://yuchaoy.github.io/tags/PQ/"/>
     
-      <category term="IVFADC" scheme="http://yoursite.com/tags/IVFADC/"/>
+      <category term="IVFADC" scheme="https://yuchaoy.github.io/tags/IVFADC/"/>
     
   </entry>
   
   <entry>
     <title>Approximate Nearest Neighbor Search 初探</title>
-    <link href="http://yoursite.com/2019/03/04/ANN/"/>
-    <id>http://yoursite.com/2019/03/04/ANN/</id>
+    <link href="https://yuchaoy.github.io/2019/03/04/ANN/"/>
+    <id>https://yuchaoy.github.io/2019/03/04/ANN/</id>
     <published>2019-03-04T08:19:52.000Z</published>
     <updated>2019-04-01T07:53:50.870Z</updated>
     
@@ -133,10 +133,10 @@
     </summary>
     
     
-      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
     
     
-      <category term="ANN" scheme="http://yoursite.com/tags/ANN/"/>
+      <category term="ANN" scheme="https://yuchaoy.github.io/tags/ANN/"/>
     
   </entry>
   
