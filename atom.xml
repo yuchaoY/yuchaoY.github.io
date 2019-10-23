@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Yuchaoy&#39;s Blog</title>
+  
+  <subtitle>One Piece</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-04-02T13:33:21.448Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>ZORO</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>HNSW</title>
+    <link href="http://yoursite.com/2019/04/02/HNSW/"/>
+    <id>http://yoursite.com/2019/04/02/HNSW/</id>
+    <published>2019-04-02T13:26:15.000Z</published>
+    <updated>2019-04-02T13:33:21.448Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+    
+      <category term="Graph" scheme="http://yoursite.com/categories/ANN/Graph/"/>
+    
+    
+      <category term="HNSW" scheme="http://yoursite.com/tags/HNSW/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ITQ</title>
+    <link href="http://yoursite.com/2019/03/13/ITQ/"/>
+    <id>http://yoursite.com/2019/03/13/ITQ/</id>
+    <published>2019-03-13T14:44:15.000Z</published>
+    <updated>2019-03-27T14:46:50.488Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+    
+      <category term="Quantization" scheme="http://yoursite.com/categories/ANN/Quantization/"/>
+    
+    
+      <category term="Procrustean" scheme="http://yoursite.com/tags/Procrustean/"/>
+    
+      <category term="Binary Code" scheme="http://yoursite.com/tags/Binary-Code/"/>
+    
+      <category term="Similarity Preserving" scheme="http://yoursite.com/tags/Similarity-Preserving/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IVFPQ</title>
+    <link href="http://yoursite.com/2019/03/12/IVFPQ/"/>
+    <id>http://yoursite.com/2019/03/12/IVFPQ/</id>
+    <published>2019-03-12T14:19:09.000Z</published>
+    <updated>2019-03-13T14:55:54.771Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+    
+      <category term="Quantization" scheme="http://yoursite.com/categories/ANN/Quantization/"/>
+    
+      <category term="PQ" scheme="http://yoursite.com/categories/ANN/Quantization/PQ/"/>
+    
+    
+      <category term="VQ" scheme="http://yoursite.com/tags/VQ/"/>
+    
+      <category term="PQ" scheme="http://yoursite.com/tags/PQ/"/>
+    
+      <category term="IVFADC" scheme="http://yoursite.com/tags/IVFADC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Approximate Nearest Neighbor Search 初探</title>
+    <link href="http://yoursite.com/2019/03/04/ANN/"/>
+    <id>http://yoursite.com/2019/03/04/ANN/</id>
+    <published>2019-03-04T08:19:52.000Z</published>
+    <updated>2019-04-01T07:53:50.870Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+      <category term="ANN" scheme="http://yoursite.com/categories/ANN/"/>
+    
+    
+      <category term="ANN" scheme="http://yoursite.com/tags/ANN/"/>
+    
+  </entry>
+  
+</feed>
