@@ -268,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/11/28/PCA/">
+    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/11/28/经典无监督方法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ZORO">
@@ -287,7 +287,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/28/PCA/" itemprop="url">经典无监督方法</a></h1>
+                <a class="post-title-link" href="/2019/11/28/经典无监督方法/" itemprop="url">经典无监督方法</a></h1>
         
 
         <div class="post-meta">
@@ -299,7 +299,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-28T20:26:15+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-28T21:01:57+08:00">
                 2019-11-28
               </time>
             
@@ -350,7 +350,7 @@
 
           
           
-             <span id="/2019/11/28/PCA/" class="leancloud_visitors" data-flag-title="经典无监督方法">
+             <span id="/2019/11/28/经典无监督方法/" class="leancloud_visitors" data-flag-title="经典无监督方法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -521,28 +521,28 @@ f^TLf
 \end{align}</script></li>
 <li><p>$L$ 半正定;</p>
 </li>
-<li><p>$L\bold1=\bold 0, \bold1^TL\bold 1=0$;</p>
+<li><p>$L\boldsymbol1=\boldsymbol 0, \boldsymbol1^TL\boldsymbol 1=0$;</p>
 </li>
-<li><p>$L$ 有 $n$ 个非负实特征值，且 $0=\lambda_1\leq \lambda_2 \leq \dots \leq \lambda_n$. ( $L \bold 1 = \bold 0$ )</p>
+<li><p>$L$ 有 $n$ 个非负实特征值，且 $0=\lambda_1\leq \lambda_2 \leq \dots \leq \lambda_n$. ( $L \boldsymbol 1 = \boldsymbol 0$ )</p>
 </li>
 <li><p><strong>$L$ 的 $0$ 特征值的重数等于图中连通分量的个数，且每个特征向量为对应连通分量的指示向量</strong>。</p>
 <p><em>Proof</em>：</p>
 <ul>
 <li>当连通分量个数为$1$; 假设 $0$ 特征值对应的特征向量为 $f$, 即$Lf=0$，所以$f^TLf=0$，又因为$ w_{ij} &gt; 0 $, 所以必有 $f_i = f_j = 1 $。也即0特征值只有一个对应的特征向量，所以$0$特征值重数为$1$。</li>
-<li>当连通分量个数为 $k$; 不失一般性，将 $W$ 根据连通性重排成块对角矩阵，同样对于 $L$ 有相应的块对角结构。<script type="math/tex; mode=display">
-L =
-\left[
-\begin{matrix}
-L_1  \\
-& L_2  \\
-& & \ddots \\
-& & & L_k \\
-\end{matrix}
-\right]</script></li>
+<li>当连通分量个数为 $k$; 不失一般性，将 $W$ 根据连通性重排成块对角矩阵，同样对于 $L$ 有相应的块对角结构。</li>
 </ul>
 </li>
 </ol>
-<p>对于任意一个对角块 $L_i$, 它也就对应了第 $i$ 个子图 $A_i$ (假设顶点个数为$n_i$)的拉普拉斯矩阵。由于 $A_i$ 是全连通的，其连通分量等于其$0$特征值的重数$1$，对应的特征向量也即是指示向量 $\bold1$, 其余$n-n_i$维用$0$填充。</p>
+<script type="math/tex; mode=display">
+L =
+   \left[
+   \begin{matrix}
+   L_1  \\
+   & L_2  \\
+   & & \ddots \\
+   & & & L_k \\
+   \end{matrix}
+   \right]</script><p>对于任意一个对角块 $L_i$, 它也就对应了第 $i$ 个子图 $A_i$ (假设顶点个数为$n_i$)的拉普拉斯矩阵。由于 $A_i$ 是全连通的，其连通分量等于其$0$特征值的重数$1$，对应的特征向量也即是指示向量 $\boldsymbol1$, 其余$n-n_i$维用$0$填充。</p>
 <h4 id="0-4-Cut"><a href="#0-4-Cut" class="headerlink" title="0.4 Cut"></a>0.4 Cut</h4><p>对于无向图 $G(V,E)$, 我们将它划分成互相不连通的 $k$ 个子图，每个子图的顶点集为：$A_1,A_1,\dots,A_k$, 满足 $A_i \cap A_j = \emptyset, \cup_{i=1}^k A_i=V$ </p>
 <p>对于任意两个子图的点集 $A，B \in V, A \cap B = \emptyset$, 定义 $A, B$  之间的权重为</p>
 <script type="math/tex; mode=display">
@@ -571,7 +571,7 @@ cut(A_1,A_2,\dots,A_k)
 & = \frac{1}{2}\sum\limits_{t=1}^kW(A_t, \bar A_t) \\
 & = \frac{1}{2}\sum\limits_{t=1}^k (f^t)^TLf^t \\
 & = \frac{1}{2}Tr(F^TLF)
-\end{align}</script><p>不失一般性，我们使用行变换将 $F$ 重排列成<strong>阶梯型矩阵</strong>，为了维持<strong>cut</strong>值不变，相应的 $L$ 也要按照乘法运算规则重排。重排后目标函数的意义就是对 $L$ 中的 $k$ 个对角块之和，第$i$ 个对角块的size为 $m \times m$, $m$ 为 $f_i\bold1$ 。</p>
+\end{align}</script><p>不失一般性，我们使用行变换将 $F$ 重排列成<strong>阶梯型矩阵</strong>，为了维持<strong>cut</strong>值不变，相应的 $L$ 也要按照乘法运算规则重排。重排后目标函数的意义就是对 $L$ 中的 $k$ 个对角块之和，第$i$ 个对角块的size为 $m \times m$, $m$ 为 $f_i\boldsymbol1$ 。</p>
 <h3 id="1-MinCut"><a href="#1-MinCut" class="headerlink" title="1. MinCut"></a>1. MinCut</h3><p>对于一个聚类问题，我们的目的就是希望将数据集 $X \in R^{d \times n}$ 分割成 $k$ 个子集，每一个子集表示一类数据。根据不同的分割准则，可以引出不同的聚类算法。</p>
 <ul>
 <li><p>通过<strong>最小化每一个子集的类内散度</strong>，我们可以引出传统的<strong>KMeans</strong></p>
@@ -581,11 +581,11 @@ cut(A_1,A_2,\dots,A_k)
 </ul>
 <p>前面我们已经知道，<strong>cut</strong> 就是用来衡量分割后每一个子集间的权重的，于是就很自然的可以用<strong>Min-cut</strong>的思想来描述这一准则：</p>
 <script type="math/tex; mode=display">
-\min\limits_{F \in Ind} cut(A_1,A_2,\dots,A_k) => \min\limits_{F \in Ind} Tr(F^TLF)</script><p>然而，该问题存在<strong>Trivial Solution</strong>。因为约束$F \in Ind$ 只能限制每一个样本仅属于一类，无法保证最终一定出现$k$ 个类别。所以可能出现所有样本都聚在一个集合中的情况，$Tr(F^TLF)=Tr(f^tLf^t)=Tr(\bold1^TF\bold1)=0$。</p>
+\min\limits_{F \in Ind} cut(A_1,A_2,\dots,A_k) => \min\limits_{F \in Ind} Tr(F^TLF)</script><p>然而，该问题存在<strong>Trivial Solution</strong>。因为约束$F \in Ind$ 只能限制每一个样本仅属于一类，无法保证最终一定出现$k$ 个类别。所以可能出现所有样本都聚在一个集合中的情况，$Tr(F^TLF)=Tr(f^tLf^t)=Tr(\boldsymbol1^TF\boldsymbol1)=0$。</p>
 <p><strong>题外话，需要注意的是，虽然有Trivial Solution, 但是在实验中我发现算法并不一定就会跑到这个解上。</strong></p>
 <p>为了解决这个问题，直觉上来说，我们需要在上述的约束$F \in Ind$ 之上，再添加上一些约束，保证​在分割后的 $k$ 个集合都能存有顶点。那么一个很直接的操作就是加上区间限制：</p>
 <script type="math/tex; mode=display">
-\min\limits_{F \in Ind;a \leq F^T \bold 1 \leq b} Tr(F^TLF)</script><p>这样就能够将每一个类别的样本数目bound在 $[a, b]$, 于是就避免了<strong>Trivial</strong>的情况出现。</p>
+\min\limits_{F \in Ind;a \leq F^T \boldsymbol 1 \leq b} Tr(F^TLF)</script><p>这样就能够将每一个类别的样本数目bound在 $[a, b]$, 于是就避免了<strong>Trivial</strong>的情况出现。</p>
 <p>但是这么做，在实操中发现行不通。下面使用<strong>Coordinate Descend</strong> ，对每一个<strong>样本</strong>分别求解。</p>
 <p>令 $F=[f_1 \  f_2 \  \dots \  f_n]^T$, 则有</p>
 <script type="math/tex; mode=display">
@@ -686,18 +686,18 @@ Tr
 &=Tr
 \left(
     f_iL_{ii}f_i^T+2F_iL_if_i^T+F_iL_oF_i^T
-\right)\ (\bold{Tr(A)=Tr(A^T)})
+\right)\ (\boldsymbol{Tr(A)=Tr(A^T)})
 
 \end{align}</script><p>回到开始的优化问题</p>
 <script type="math/tex; mode=display">
 \begin{align}
-    & \min\limits_{F \in Ind;a \leq F^T \bold 1 \leq b} Tr(F^TLF) \\
-    &=> \min\limits_{f_i \in Ind;a \leq F^T \bold 1 \leq b}
+    & \min\limits_{F \in Ind;a \leq F^T \boldsymbol 1 \leq b} Tr(F^TLF) \\
+    &=> \min\limits_{f_i \in Ind;a \leq F^T \boldsymbol 1 \leq b}
     Tr(f_iL_{ii}f_i^T+2F_iL_if_i^T+F_iL_oF_i^T) \\
-    &=> \min\limits_{f_i \in Ind;a \leq F^T \bold 1 \leq b}
+    &=> \min\limits_{f_i \in Ind;a \leq F^T \boldsymbol 1 \leq b}
     Tr(F_iL_if_i^T) \\
-    &=> \min\limits_{f_i \in Ind;a \leq F^T \bold 1 \leq b}
-    f_i^T(F_iL_i)\ (\bold{Tr(ab^T)=b^Ta=a^Tb})
+    &=> \min\limits_{f_i \in Ind;a \leq F^T \boldsymbol 1 \leq b}
+    f_i^T(F_iL_i)\ (\boldsymbol{Tr(ab^T)=b^Ta=a^Tb})
 
 \end{align}</script><p>所以 $f_i$ 的更新规则是指示 $k$ 维向量 $F_iL_i$ 中最小的那个元素的位置。$F_i\in R^{k \times n-1}$ 是除了第 $i$ 个样本之外的指示矩阵的转置，$L_i$ 是 $L$ 的第 $i$ 列。使用列变换将 $F_i$ 转换成阶梯型矩阵，$L$ 也相应地变换，得到如下图。</p>
 <p><img src="./images/Spectral.svg" alt=""></p>
