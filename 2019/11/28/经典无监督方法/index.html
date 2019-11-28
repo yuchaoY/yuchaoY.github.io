@@ -90,7 +90,7 @@
 <meta property="og:description" content="本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。 目前包含如下内容：  PCA K-Means Clustering NMF Spectral Clustering  PCA可以从两个不同的角度出发，推导出PCA的优化目标。 1.方差最大化 LAMA1 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/11/28/经典无监督方法/Spectral.svg">
-<meta property="og:updated_time" content="2019-11-28T14:00:36.537Z">
+<meta property="og:updated_time" content="2019-11-28T15:13:29.605Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="经典无监督方法">
 <meta name="twitter:description" content="本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。 目前包含如下内容：  PCA K-Means Clustering NMF Spectral Clustering  PCA可以从两个不同的角度出发，推导出PCA的优化目标。 1.方差最大化 LAMA1 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol">
@@ -423,7 +423,7 @@
 </ul>
 <h1 id="PCA"><a href="#PCA" class="headerlink" title="PCA"></a>PCA</h1><p>可以从两个不同的角度出发，推导出PCA的优化目标。</p>
 <h3 id="1-方差最大化"><a href="#1-方差最大化" class="headerlink" title="1.方差最大化"></a>1.方差最大化</h3><blockquote>
-<p><strong>LAMA1</strong> 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol 0$, 则 $\frac{1}{n-1} XX^T$ 为 $X$ 的协方差矩阵，$Tr(XX^T)=|X|_F^2$ 为 $X$ 的方差。 </p>
+<p><strong>LAMA1</strong> 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol 0$, 则 $\frac{1}{n-1} XX^T$ 为 $X$ 的协方差矩阵，$Tr(XX^T)=\Vert X \Vert_F^2$ 为 $X$ 的方差。 </p>
 </blockquote>
 <p> 把 $X$ 按行向量的形式写，第 $i$ 行用 $(x^i)^T$ 表示:</p>
 <script type="math/tex; mode=display">
