@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Unsupervised,">
 
 
 
@@ -81,16 +81,20 @@
 
 
 
-<meta name="description" content="Yuchaoy&apos;s Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Yuchaoy&#39;s Blog">
-<meta property="og:url" content="https://yuchaoy.github.io/index.html">
+<meta name="description" content="本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。 目前包含如下内容：  PCA K-Means Clustering NMF Spectral Clustering  PCA可以从两个不同的角度出发，推导出PCA的优化目标。 1.方差最大化 LAMA1 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol">
+<meta name="keywords" content="Unsupervised">
+<meta property="og:type" content="article">
+<meta property="og:title" content="经典无监督方法">
+<meta property="og:url" content="https://yuchaoy.github.io/2019/11/28/PCA/index.html">
 <meta property="og:site_name" content="Yuchaoy&#39;s Blog">
-<meta property="og:description" content="Yuchaoy&apos;s Blog">
+<meta property="og:description" content="本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。 目前包含如下内容：  PCA K-Means Clustering NMF Spectral Clustering  PCA可以从两个不同的角度出发，推导出PCA的优化目标。 1.方差最大化 LAMA1 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/11/28/PCA/images/Spectral.svg">
+<meta property="og:updated_time" content="2019-11-28T12:35:43.622Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yuchaoy&#39;s Blog">
-<meta name="twitter:description" content="Yuchaoy&apos;s Blog">
+<meta name="twitter:title" content="经典无监督方法">
+<meta name="twitter:description" content="本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。 目前包含如下内容：  PCA K-Means Clustering NMF Spectral Clustering  PCA可以从两个不同的角度出发，推导出PCA的优化目标。 1.方差最大化 LAMA1 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol">
+<meta name="twitter:image" content="https://yuchaoy.github.io/2019/11/28/PCA/images/Spectral.svg">
 
 
 
@@ -120,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://yuchaoy.github.io/">
+  <link rel="canonical" href="https://yuchaoy.github.io/2019/11/28/PCA/">
 
 
 
 
 
-  <title>Yuchaoy's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>经典无监督方法 | Yuchaoy's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -149,8 +153,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
-  page-home">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -253,9 +256,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -285,9 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/11/28/PCA/" itemprop="url">经典无监督方法</a></h1>
+          <h1 class="post-title" itemprop="name headline">经典无监督方法</h1>
         
 
         <div class="post-meta">
@@ -412,9 +413,7 @@
       
 
       
-        
-          
-            <p>本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。</p>
+        <p>本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。</p>
 <p>目前包含如下内容：</p>
 <ul>
 <li>PCA</li>
@@ -742,8 +741,6 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
 <script type="math/tex; mode=display">
 \min\limits_{H^TH=I} Tr(H^T\hat{L}H) => \min\limits_{F^TF=I} Tr(F^T\hat{L}F)</script><p>$\hat L$ 也叫<strong>标准化Laplacian Matrix</strong>, $\hat L_{ij}=\frac{L_{ij}}{\sqrt{d_i\times d_j}}$</p>
 
-          
-        
       
     </div>
     
@@ -758,409 +755,36 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/04/02/HNSW/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZORO">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/headpage.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yuchaoy's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/02/HNSW/" itemprop="url">HNSW</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-02T21:26:15+08:00">
-                2019-04-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/" itemprop="url" rel="index">
-                    <span itemprop="name">ANN</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/Graph/" itemprop="url" rel="index">
-                    <span itemprop="name">Graph</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/Unsupervised/" rel="tag"># Unsupervised</a>
           
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/04/02/HNSW/" class="leancloud_visitors" data-flag-title="HNSW">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  14
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ref: Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/03/13/ITQ/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZORO">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/headpage.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yuchaoy's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/13/ITQ/" itemprop="url">ITQ</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-13T22:44:15+08:00">
-                2019-03-13
-              </time>
+              <a href="/2019/04/02/HNSW/" rel="next" title="HNSW">
+                <i class="fa fa-chevron-left"></i> HNSW
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/" itemprop="url" rel="index">
-                    <span itemprop="name">ANN</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/Quantization/" itemprop="url" rel="index">
-                    <span itemprop="name">Quantization</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/03/13/ITQ/" class="leancloud_visitors" data-flag-title="ITQ">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  172
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes</p>
-<h2 id="Kernel"><a href="#Kernel" class="headerlink" title="Kernel"></a>Kernel</h2><script type="math/tex; mode=display">\min\limits_{B, R}\left\| B-XWR \right\|_F^2</script><p>其中 $R \in R^{c \times c}​$ 是旋转矩阵，$B \in R^{n \times c}​$ 是超立方体的顶点坐标, $W \in R^{d \times c}​$ 表示投影矩阵；</p>
-<p><em>Step1.</em> 将数据集先用PCA等降维方法将数据从原始 $d​$ 维空间降维($W​$)至 $c​$ 维空间；</p>
-<p><em>Step2.</em> 对 $c$ 维空间中的样本点进行旋转($R$)，同时将旋转后的样本点映射到 $c$ 维空间某一立方体的顶点( $B$, 共 $2^c$ 个顶点)  ；</p>
-<p><em>Step3.</em> 迭代更新<em>Step2</em> 中的$R\&amp;B​$ , 使得映射之后的量化误差最小。</p>
-<h2 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h2><p>$W$ 能否自己学？</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -1170,411 +794,11 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/03/12/IVFPQ/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZORO">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/headpage.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yuchaoy's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/12/IVFPQ/" itemprop="url">IVFPQ</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-12T22:19:09+08:00">
-                2019-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/" itemprop="url" rel="index">
-                    <span itemprop="name">ANN</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/Quantization/" itemprop="url" rel="index">
-                    <span itemprop="name">Quantization</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/Quantization/PQ/" itemprop="url" rel="index">
-                    <span itemprop="name">PQ</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/03/12/IVFPQ/" class="leancloud_visitors" data-flag-title="IVFPQ">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  7
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Production quantization for nearest neighbor search</p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/03/04/ANN/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ZORO">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/headpage.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yuchaoy's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/04/ANN/" itemprop="url">Approximate Nearest Neighbor Search 初探</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-04T16:19:52+08:00">
-                2019-03-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/" itemprop="url" rel="index">
-                    <span itemprop="name">ANN</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/03/04/ANN/" class="leancloud_visitors" data-flag-title="Approximate Nearest Neighbor Search 初探">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  371
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Approximate-Nearest-Neighbor-Search-初探"><a href="#Approximate-Nearest-Neighbor-Search-初探" class="headerlink" title="Approximate Nearest Neighbor Search 初探"></a>Approximate Nearest Neighbor Search 初探</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。</p>
-<script type="math/tex; mode=display">NN(q) = \arg \min\limits_{x \in X} d(q, x)</script><p>最朴素的办法,我们可以使用 <strong><em>Exact Search</em></strong>，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间，数据规模稍大（million）的情况下便无法应用上。</p>
-<p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法可分为以下大致4类：</p>
-<ol>
-<li>Tree: KD-Tree等；</li>
-<li>Hash: LSH等；</li>
-<li>Quantization: PQ, OPQ, LOPQ等；</li>
-<li>Graph: HNSW, NSG等;</li>
-<li>auxiliary：IMI等。</li>
-</ol>
-<p>其中Tree、Hash和Quantization Based的方法是基于空间划分的思想，将空间划分成<em>cell/Voronoi</em>，然后利用上某些辅助的索引结构，可以在检索的过程中起到同时降低 $N$ 和 $D$ 来减少计算复杂度，如IVFPQ(PQ + Inverted Index)。</p>
-<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。检索过程一般是通过降低 $N$ 来减少计算法复杂度。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -1582,6 +806,10 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1602,8 +830,17 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -1683,6 +920,22 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PCA"><span class="nav-number">1.</span> <span class="nav-text">PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-方差最大化"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.方差最大化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-重构误差最小化"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.重构误差最小化</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#KMeans"><span class="nav-number">2.</span> <span class="nav-text">KMeans</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NMF"><span class="nav-number">3.</span> <span class="nav-text">NMF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SymNMF"><span class="nav-number">3.0.1.</span> <span class="nav-text">1.SymNMF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spectral-Clustering"><span class="nav-number">4.</span> <span class="nav-text">Spectral Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-Laplacian-Matrix"><span class="nav-number">4.0.1.</span> <span class="nav-text">0.Laplacian Matrix</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-1-Undirected-Graph-amp-affinity-matrix-amp-degree-matrix"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">0.1 Undirected Graph &amp; affinity matrix &amp; degree matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-2-similarity-matrix"><span class="nav-number">4.0.1.2.</span> <span class="nav-text">0.2 similarity matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-3-Laplacian-Matrix"><span class="nav-number">4.0.1.3.</span> <span class="nav-text">0.3 Laplacian Matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-4-Cut"><span class="nav-number">4.0.1.4.</span> <span class="nav-text">0.4 Cut</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-5-形式化Cut"><span class="nav-number">4.0.1.5.</span> <span class="nav-text">0.5 形式化Cut</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MinCut"><span class="nav-number">4.0.2.</span> <span class="nav-text">1. MinCut</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RCut"><span class="nav-number">4.0.3.</span> <span class="nav-text">2. RCut</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-NCut"><span class="nav-number">4.0.4.</span> <span class="nav-text">3. NCut</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1843,6 +1096,10 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
