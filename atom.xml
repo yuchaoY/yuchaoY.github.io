@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuchaoy.github.io/"/>
-  <updated>2019-11-28T15:13:29.605Z</updated>
+  <updated>2019-11-29T14:21:58.177Z</updated>
   <id>https://yuchaoy.github.io/</id>
   
   <author>
@@ -21,17 +21,17 @@
     <link href="https://yuchaoy.github.io/2019/11/28/%E7%BB%8F%E5%85%B8%E6%97%A0%E7%9B%91%E7%9D%A3%E6%96%B9%E6%B3%95/"/>
     <id>https://yuchaoy.github.io/2019/11/28/经典无监督方法/</id>
     <published>2019-11-28T13:01:57.000Z</published>
-    <updated>2019-11-28T15:13:29.605Z</updated>
+    <updated>2019-11-29T14:21:58.177Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          
-        
-      
+      &lt;p&gt;本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。&lt;/p&gt;
+&lt;p&gt;目前包含如下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PCA&lt;/li&gt;
+&lt;li&gt;K-Means Clustering&lt;/li&gt;
+&lt;li&gt;NMF&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Spectral Clustering&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
     
     </summary>
     

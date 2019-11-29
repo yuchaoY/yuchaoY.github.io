@@ -139,8 +139,6 @@
 </head>
 
 
-<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
 
@@ -413,336 +411,20 @@
 
       
         
-          
-            <p>本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。</p>
+          <p>本文的目的是回顾经典的无监督方法，方便笔者在失忆的时候迅速回忆起来。</p>
 <p>目前包含如下内容：</p>
 <ul>
 <li>PCA</li>
 <li>K-Means Clustering</li>
 <li>NMF</li>
-<li>Spectral Clustering</li>
-</ul>
-<h1 id="PCA"><a href="#PCA" class="headerlink" title="PCA"></a>PCA</h1><p>可以从两个不同的角度出发，推导出PCA的优化目标。</p>
-<h3 id="1-方差最大化"><a href="#1-方差最大化" class="headerlink" title="1.方差最大化"></a>1.方差最大化</h3><blockquote>
-<p><strong>LAMA1</strong> 任意矩阵$X \in R^{D \times n}$, 若满足$\sum_{i=1}^n x_i = \boldsymbol 0$, 则 $\frac{1}{n-1} XX^T$ 为 $X$ 的协方差矩阵，$Tr(XX^T)=\Vert X \Vert_F^2$ 为 $X$ 的方差。 </p>
-</blockquote>
-<p> 把 $X$ 按行向量的形式写，第 $i$ 行用 $(x^i)^T$ 表示:</p>
-<script type="math/tex; mode=display">
-X =
-\left[
-\begin{matrix}
- (x^1)^T      \\
- (x^2)^T      \\
- \vdots \\
- (x^D)^T      \\
-\end{matrix}
-\right]</script><p>那么</p>
-<script type="math/tex; mode=display">
-XX^T =
-\left[
-\begin{matrix}
-(x^1)^Tx^1 & (x^1)^Tx^2 & \cdots & (x^1)^Tx^D \\
-(x^2)^Tx^1 & (x^2)^Tx^2 & \cdots & (x^2)^Tx^D \\
-\vdots & \vdots & \ddots & \vdots \\
-(x^D)^Tx^1 & (x^D)^Tx^2 & \cdots & (x^D)^Tx^D \\
-\end{matrix}
-\right]</script><p>第 $i$ 个维度的方差$Var(x^i)$满足</p>
-<script type="math/tex; mode=display">
-\begin{align}
-(n-1) \times Var(x^i)
-& = \sum\limits_{j=1}^n (x_{ij}-\frac{1}{n}\sum\limits_{j=1}^n x_{ij})^2 \\
-& = \sum\limits_{j=1}^n x_{ij}^2 \ (x^i均值为0) \\
-& = (x^i)^Tx^i \\
-\end{align}</script><p>$i,j$ 两个维度的协方差$Cov(x^i, x^j)$满足</p>
-<script type="math/tex; mode=display">
-\begin{align}
-(n-1) \times Cov(x^i, x^j)
-& = \sum\limits_{k=1}^n (x_{ik}-\frac{1}{n}\sum\limits_{k=1}^n x_{ik}) (x_{jk}-\frac{1}{n}\sum\limits_{k=1}^n x_{jk}) \\
-& = \sum\limits_{k=1}^n x_{ik}x_{jk} \\
-& = (x^i)^Tx^j \\
-\end{align}</script><p>由此可知，$\frac{1}{n-1}XX^T$ 即为 $X$ 的协方差矩阵。</p>
-<p>下面用 $W \in R^{D \times d} $ 描述投影变换， $Y=W^TX$ 表示投影之后的样本空间，很明显 $Y$ 也是中心化的，那么 $\frac{1}{n-1}YY^T$ 也表示投影后的样本的协方差矩阵。</p>
-<p>我们希望样本在每一个维度投影后应尽可能多地保留原始空间的信息，同时为了防止信息在投影之后冗余，我们也希望每一个维度之间相互正交。于是有：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-& \max\limits_{W^TW=I} Tr(Y^TY) \\
-& => \max\limits_{W^TW=I}Tr(W^TXX^TW) \\
-\end{align}</script><h3 id="2-重构误差最小化"><a href="#2-重构误差最小化" class="headerlink" title="2.重构误差最小化"></a>2.重构误差最小化</h3><script type="math/tex; mode=display">
-\begin{align}
-& \min\limits_{rank(Z)=d}\|X-Z\|_F^2 \\
-& => \min\limits_{U^TU=I,V}\|X-UV^T\|_F^2\ (Z满秩分解)\\
-& => \min\limits_{U^TU=I}\|X-UU^TX\|_F^2\ (对V求导为0消去V)\\
-& => \min\limits_{U^TU=I}Tr(X^TX-X^TUU^TX) \\
-& => \max\limits_{U^TU=I}Tr(U^TXX^TU)
-\end{align}</script><h1 id="KMeans"><a href="#KMeans" class="headerlink" title="KMeans"></a>KMeans</h1><script type="math/tex; mode=display">
-\begin{align}
-& \min_C \sum\limits_{j=1}^k \sum\limits_{x_i \in C_j} \|x_i-c_j\|_2^2 \\
-& => \min_{G \in Ind, C} \sum\limits_{i=1}^n \sum\limits_{j=1}^k \|x_i-c_j\|_2^2 g_{ij}\\
-& => \min_{G \in Ind, C} \|X-CG^T\|_F^2 \\
-& => \min_{G^TG=I,C} \|X-CG^T\|_F^2 \ (\boldsymbol{relax \ G}) \\
-& => \min_{G^TG=I,C} \|X-XGG^T\|_F^2 \\
-& => \min_{G^TG=I} Tr(X^TX-G^TX^TXG) \\
-& => \max_{G^TG=I} Tr(G^TX^TXG)
-\end{align}</script><h1 id="NMF"><a href="#NMF" class="headerlink" title="NMF"></a>NMF</h1><script type="math/tex; mode=display">
-\min_{F \geq 0,G \geq 0}\|X-FG^T\|_F^2</script><h3 id="1-SymNMF"><a href="#1-SymNMF" class="headerlink" title="1.SymNMF"></a>1.SymNMF</h3><script type="math/tex; mode=display">
-\begin{align}
-& \min_{F \geq 0}\|X-FF^T\|_F^2 \\
-
-\end{align}</script><h1 id="Spectral-Clustering"><a href="#Spectral-Clustering" class="headerlink" title="Spectral Clustering"></a>Spectral Clustering</h1><p>矩阵 $A$ 的特征值的全体，称为 $A$ 的谱<strong>Spectra</strong>，记为 $\lambda(A)$</p>
-<h3 id="0-Laplacian-Matrix"><a href="#0-Laplacian-Matrix" class="headerlink" title="0.Laplacian Matrix"></a>0.Laplacian Matrix</h3><h4 id="0-1-Undirected-Graph-amp-affinity-matrix-amp-degree-matrix"><a href="#0-1-Undirected-Graph-amp-affinity-matrix-amp-degree-matrix" class="headerlink" title="0.1 Undirected Graph &amp; affinity matrix &amp; degree matrix"></a>0.1 Undirected Graph &amp; affinity matrix &amp; degree matrix</h4><p>一个图 $G$ 由顶点集 $V$ 和边集 $E$ 构成，记为 $G(V,E)$</p>
-<p>定义任意两个顶点 $v_i$ 和 $v_j$ 之间的权重 $w_{ij}$ ，无向图中 $w_{ij}=w_{ji}$ ，所有的权重共同构成<strong>邻接矩阵 $W$</strong></p>
-<p>顶点 $v_i$ 的度 $d_i=\sum\limits_{j=1}^n w_{ij}$ ，所有顶点的度构成的对角阵共同构成<strong>度矩阵 $D$</strong></p>
-<p>另外，对于任意 $A \in V$ , 我们定义 $|A|$ 表示 <strong>$A$ 中元素的个数</strong>；定义 $vol(A)=\sum\limits_{i \in A} d_i$ 表示 <strong>$A$ 中所有点的总度数</strong></p>
-<h4 id="0-2-similarity-matrix"><a href="#0-2-similarity-matrix" class="headerlink" title="0.2 similarity matrix"></a>0.2 similarity matrix</h4><p>一般无法直接获得邻接矩阵，需要人为设计相似度矩阵来近似邻接矩阵。</p>
-<p>设计的基本原则是</p>
-<blockquote>
-<p>距离越近的两个样本点之间的相似度越大，距离越远相似度越小。一般大于0。</p>
-</blockquote>
-<p>实际操作中，最常用的是使用<strong>高斯核函数</strong>来定义权重：</p>
-<script type="math/tex; mode=display">
-w_{ij} = w_{ji} = exp(-\frac{\|x_i-x_j\|_2^2}{2 \sigma^2})</script><h4 id="0-3-Laplacian-Matrix"><a href="#0-3-Laplacian-Matrix" class="headerlink" title="0.3 Laplacian Matrix"></a>0.3 Laplacian Matrix</h4><script type="math/tex; mode=display">
-L=D-W</script><p>它有如下性质：</p>
-<ol>
-<li><p>$L$ 是对称矩阵；</p>
-</li>
-<li><p>$L$ 的特征值都是实数；</p>
-</li>
-<li><p>除了对角线元素非负，其余都非正。</p>
-</li>
-<li><p>对于任意向量 $f \in R^n$, 有</p>
-<script type="math/tex; mode=display">
-\begin{align}
-f^TLf
-& = f^TDf - f^TWf \\
-& = \sum\limits_{i=1}^n d_if_i^2 - \sum\limits_{i=1}^n \sum\limits_{j=1}^n w_{ij}f_if_j \\
-& = \sum\limits_{i=1}^n \sum\limits_{j=1}^n w_{ij}f_i^2 - \sum\limits_{i=1}^n \sum\limits_{j=1}^n w_{ij}f_if_j \\
-& = \frac{1}{2}\sum\limits_{i=1}^n \sum\limits_{j=1}^n w_{ij} (f_i^2-2f_if_j+f_j^2) \\
-& = \frac{1}{2}\sum\limits_{i=1}^n \sum\limits_{j=1}^n w_{ij}(f_i-f_j)^2 \\
-\end{align}</script></li>
-<li><p>$L$ 半正定;</p>
-</li>
-<li><p>$L\boldsymbol1=\boldsymbol 0, \boldsymbol1^TL\boldsymbol 1=0$;</p>
-</li>
-<li><p>$L$ 有 $n$ 个非负实特征值，且 $0=\lambda_1\leq \lambda_2 \leq \dots \leq \lambda_n$. ( $L \boldsymbol 1 = \boldsymbol 0$ )</p>
-</li>
-<li><p><strong>$L$ 的 $0$ 特征值的重数等于图中连通分量的个数，且每个特征向量为对应连通分量的指示向量</strong>。</p>
-<p><em>Proof</em>：</p>
-<ul>
-<li>当连通分量个数为$1$; 假设 $0$ 特征值对应的特征向量为 $f$, 即$Lf=0$，所以$f^TLf=0$，又因为$ w_{ij} &gt; 0 $, 所以必有 $f_i = f_j = 1 $。也即0特征值只有一个对应的特征向量，所以$0$特征值重数为$1$。</li>
-<li>当连通分量个数为 $k$; 不失一般性，将 $W$ 根据连通性重排成块对角矩阵，同样对于 $L$ 有相应的块对角结构。</li>
-</ul>
-</li>
-</ol>
-<script type="math/tex; mode=display">
-L =
-   \left[
-   \begin{matrix}
-   L_1  \\
-   & L_2  \\
-   & & \ddots \\
-   & & & L_k \\
-   \end{matrix}
-   \right]</script><p>对于任意一个对角块 $L_i$, 它也就对应了第 $i$ 个子图 $A_i$ (假设顶点个数为$n_i$)的拉普拉斯矩阵。由于 $A_i$ 是全连通的，其连通分量等于其$0$特征值的重数$1$，对应的特征向量也即是指示向量 $\boldsymbol1$, 其余$n-n_i$维用$0$填充。</p>
-<h4 id="0-4-Cut"><a href="#0-4-Cut" class="headerlink" title="0.4 Cut"></a>0.4 Cut</h4><p>对于无向图 $G(V,E)$, 我们将它划分成互相不连通的 $k$ 个子图，每个子图的顶点集为：$A_1,A_1,\dots,A_k$, 满足 $A_i \cap A_j = \emptyset, \cup_{i=1}^k A_i=V$ </p>
-<p>对于任意两个子图的点集 $A，B \in V, A \cap B = \emptyset$, 定义 $A, B$  之间的权重为</p>
-<script type="math/tex; mode=display">
-W(A,B) = \sum\limits_{i\in A,i\in B}w_{ij}</script><p>那么对于 $V$ 中互相不连通的 $k$ 个子图，我们定义 $G$ 上的 <strong>cut</strong> </p>
-<script type="math/tex; mode=display">
-cut(A_1,A_2,\dots,A_k) = \frac{1}{2}\sum\limits_{i=1}^kW(A_i, \bar A_i)</script><h4 id="0-5-形式化Cut"><a href="#0-5-形式化Cut" class="headerlink" title="0.5 形式化Cut"></a>0.5 形式化Cut</h4><p>对于第 $t$ 个子图，引入<strong>指示向量</strong> $f^t \in R^n$ , 用来指示属于第 $t$ 个子图的顶点:</p>
-<script type="math/tex; mode=display">
-f^t_j=
-\begin{cases}
-1, \quad & j \in A_t \\
-0, \quad & else
-\end{cases}</script><p>那么有</p>
-<script type="math/tex; mode=display">
-\begin{align}
-(f^t)^TLf^t
-& = \frac{1}{2}\sum\limits_{i=1}^n \sum\limits_{j=1}^n w_{ij}(f^t_i-f^t_j)^2 \\
-& = \frac{1}{2}(\sum\limits_{i \in A_t, j \notin A_t}w_{ij} + \sum\limits_{i \notin A_t, j \in A_t}w_{ij} )\\
-& = \frac{1}{2}(W(A_t,\bar A_t)+W(\bar A_t,A_t)) \\
-& = W(A_t,\bar A_t) \\
-\end{align}</script><p>于是我们就有了形式化表示两个子图间权重的数学表达式：</p>
-<script type="math/tex; mode=display">
-W(A_t,\bar A_t)=(f^t)^TLf^t</script><p>于是有</p>
-<script type="math/tex; mode=display">
-\begin{align}
-cut(A_1,A_2,\dots,A_k) 
-& = \frac{1}{2}\sum\limits_{t=1}^kW(A_t, \bar A_t) \\
-& = \frac{1}{2}\sum\limits_{t=1}^k (f^t)^TLf^t \\
-& = \frac{1}{2}Tr(F^TLF)
-\end{align}</script><p>不失一般性，我们使用行变换将 $F$ 重排列成<strong>阶梯型矩阵</strong>，为了维持<strong>cut</strong>值不变，相应的 $L$ 也要按照乘法运算规则重排。重排后目标函数的意义就是对 $L$ 中的 $k$ 个对角块之和，第$i$ 个对角块的size为 $m \times m$, $m$ 为 $f_i\boldsymbol1$ 。</p>
-<h3 id="1-MinCut"><a href="#1-MinCut" class="headerlink" title="1. MinCut"></a>1. MinCut</h3><p>对于一个聚类问题，我们的目的就是希望将数据集 $X \in R^{d \times n}$ 分割成 $k$ 个子集，每一个子集表示一类数据。根据不同的分割准则，可以引出不同的聚类算法。</p>
-<ul>
-<li><p>通过<strong>最小化每一个子集的类内散度</strong>，我们可以引出传统的<strong>KMeans</strong></p>
-</li>
-<li><p>下面，我们通过另一种准则：<strong>每一个子集之间的权重尽量小</strong>，引出<strong>Min-cut</strong></p>
-</li>
-</ul>
-<p>前面我们已经知道，<strong>cut</strong> 就是用来衡量分割后每一个子集间的权重的，于是就很自然的可以用<strong>Min-cut</strong>的思想来描述这一准则：</p>
-<script type="math/tex; mode=display">
-\min\limits_{F \in Ind} cut(A_1,A_2,\dots,A_k) => \min\limits_{F \in Ind} Tr(F^TLF)</script><p>然而，该问题存在<strong>Trivial Solution</strong>。因为约束$F \in Ind$ 只能限制每一个样本仅属于一类，无法保证最终一定出现$k$ 个类别。所以可能出现所有样本都聚在一个集合中的情况，$Tr(F^TLF)=Tr(f^tLf^t)=Tr(\boldsymbol1^TF\boldsymbol1)=0$。</p>
-<p><strong>题外话，需要注意的是，虽然有Trivial Solution, 但是在实验中我发现算法并不一定就会跑到这个解上。</strong></p>
-<p>为了解决这个问题，直觉上来说，我们需要在上述的约束$F \in Ind$ 之上，再添加上一些约束，保证​在分割后的 $k$ 个集合都能存有顶点。那么一个很直接的操作就是加上区间限制：</p>
-<script type="math/tex; mode=display">
-\min\limits_{F \in Ind;a \leq F^T \boldsymbol 1 \leq b} Tr(F^TLF)</script><p>这样就能够将每一个类别的样本数目bound在 $[a, b]$, 于是就避免了<strong>Trivial</strong>的情况出现。</p>
-<p>但是这么做，在实操中发现行不通。下面使用<strong>Coordinate Descend</strong> ，对每一个<strong>样本</strong>分别求解。</p>
-<p>令 $F=[f_1 \  f_2 \  \dots \  f_n]^T$, 则有</p>
-<script type="math/tex; mode=display">
-\begin{align}
-Tr(F^TLF) &= 
-Tr
-\left(
-
-\left[
-    \begin{matrix}
-    f_1 & \dots & f_i & \dots & f_n
-    \end{matrix}
-\right]
-
-\left[
-   \begin{matrix}
-   L_{11} & \dots & L_{1i} & \dots & L_{1n} \\
-   \vdots & \ddots & \vdots & \ddots & \vdots  \\
-   L_{i1} & \dots & L_{ii} & \dots & L_{in} \\
-   \vdots & \ddots & \vdots & \ddots & \vdots  \\
-   L_{n1} & \dots & L_{ni} & \dots & L_{nn} \\
-   \end{matrix}
-\right]
-
-\left[
-   \begin{matrix}
-   f_1^T  \\
-   \vdots \\
-   f_i^T  \\
-   \vdots \\
-   f_n^T \\
-   \end{matrix}
-\right]
-
-\right)
-
-\\
-& = 
-Tr
-\left(
-
-\left[
-    \begin{matrix}
-    f_i & \dots & f_1 & \dots & f_n
-    \end{matrix}
-\right]
-
-\left[
-   \begin{matrix}
-   L_{ii} & \dots & L_{i1} & \dots & L_{in} \\
-   \vdots & \ddots & \vdots & \ddots & \vdots  \\
-   L_{1i} & \dots & L_{11} & \dots & L_{1n} \\
-   \vdots & \ddots & \vdots & \ddots & \vdots  \\
-   L_{ni} & \dots & L_{n1} & \dots & L_{nn} \\
-   \end{matrix}
-\right]
-
-\left[
-   \begin{matrix}
-   f_i^T  \\
-   \vdots \\
-   f_1^T  \\
-   \vdots \\
-   f_n^T \\
-   \end{matrix}
-\right]
-
-\right)
-\\
-&=Tr
-\left( 
-    \left[
-        \begin{matrix}
-            f_i & F_i 
-        \end{matrix}
-    \right]
-
-    \left[
-        \begin{matrix}
-            L_{ii} & L_i^T \\
-            L_{i} & L_o
-        \end{matrix}
-    \right]
-
-    \left[
-        \begin{matrix}
-            f_i^T \\
-            F_i^T
-        \end{matrix}
-    \right]
-\right)
-\\
-&=Tr
-\left(
-    f_iL_{ii}f_i^T+f_iL_i^TF_i^T+F_iL_if_i^T+F_iL_oF_i^T
-\right)
-\\
-&=Tr
-\left(
-    f_iL_{ii}f_i^T+2F_iL_if_i^T+F_iL_oF_i^T
-\right)\ (\boldsymbol{Tr(A)=Tr(A^T)})
-
-\end{align}</script><p>回到开始的优化问题</p>
-<script type="math/tex; mode=display">
-\begin{align}
-    & \min\limits_{F \in Ind;a \leq F^T \boldsymbol 1 \leq b} Tr(F^TLF) \\
-    &=> \min\limits_{f_i \in Ind;a \leq F^T \boldsymbol 1 \leq b}
-    Tr(f_iL_{ii}f_i^T+2F_iL_if_i^T+F_iL_oF_i^T) \\
-    &=> \min\limits_{f_i \in Ind;a \leq F^T \boldsymbol 1 \leq b}
-    Tr(F_iL_if_i^T) \\
-    &=> \min\limits_{f_i \in Ind;a \leq F^T \boldsymbol 1 \leq b}
-    f_i^T(F_iL_i)\ (\boldsymbol{Tr(ab^T)=b^Ta=a^Tb})
-
-\end{align}</script><p>所以 $f_i$ 的更新规则是指示 $k$ 维向量 $F_iL_i$ 中最小的那个元素的位置。$F_i\in R^{k \times n-1}$ 是除了第 $i$ 个样本之外的指示矩阵的转置，$L_i$ 是 $L$ 的第 $i$ 列。使用列变换将 $F_i$ 转换成阶梯型矩阵，$L$ 也相应地变换，得到如下图。</p>
-<p><img src="/2019/11/28/经典无监督方法/Spectral.svg" alt="DSC"></p>
-<p>其中黑线即表示 $L_i$，红点对应需要更新的样本点 $i$。那么 $F_iL_i$ 的结果就是四个值，分别是四个椭圆包裹的黑线值之和。如若把 $L$ 看成样本之间的<strong>不相似性</strong>，那么这四个值即意味着第 $i$ 个样本与4个类簇的不相似性，结果就是希望样本分配到不相似性最小、也即相似性最大的那个类簇。</p>
-<p>但是当某一个对角块很大时，意味着椭圆所包裹的值将越多，其总和也将大概率更小。因为 $L$ 中除了对角元，其余都是负数。负数的值越多，大概率总值就越小。此时当某一样本更新时，那么它大概率会分配进大的对角块。这就形成了一种类似黑洞的现象。虽然有根绳子拉住了样本不掉进去(bound约束)，但是黑洞里的值却很难再逃逸出来。</p>
-<p>从上面的分析中，我们点出了一个很关键的东西，就是 $L$ 可以被看成描述样本间不相识性的一种特例。但是作为一种不相似矩阵， $L$ 由于其出对角线外其余元素非正，对于<strong>Coordinate Descend</strong>不太友好。于是这样我们可以扩展一下，<strong>对 $L$ 进行改造或者说寻找更work的不相识矩阵，或者相似矩阵并最大化</strong>。</p>
-<h3 id="2-RCut"><a href="#2-RCut" class="headerlink" title="2. RCut"></a>2. RCut</h3><p>由于<strong>MinCut</strong>存在<strong>Trivial Solution</strong>，上面我在<strong>MinCut</strong>的基础上加上了bound策略，效果并不理想。我们依旧希望样本在划分时，可以考虑到将被划分到的类簇的均衡情况。考虑每一个类簇样本数目均衡，下面引出<strong>RCut</strong>:</p>
-<script type="math/tex; mode=display">
-Rcut(A_1,A_2,\dots,A_k)=\frac{1}{2}\sum\limits_{i=1}^k \frac{W(A_i,\bar{A_i})}{|A_i|}</script><p>如果按照<strong>MinCut</strong>中 $f$ 的定义，那么 $|A_t|=(f^t)^Tf^t$; 另外根据 $W(A_t,\bar A_t)=(f^t)^TLf^t$, 我们很容易就能得到</p>
-<script type="math/tex; mode=display">
-Rcut(A_1,A_2,\dots,A_k)=\frac{1}{2}\sum\limits_{t=1}^k \frac{(f^t)^TLf^t}{(f^t)^Tf^t}</script><p>为了方便化简，我们希望$(f^t)^Tf^t=1$, 那么很自然想到的操作就是修改 $f$ 的定义。因为修改$f$ 并不改变指示能力。</p>
-<script type="math/tex; mode=display">
-f^t_j=
-\begin{cases}
-\frac{1}{\sqrt{|A_t|}}, \quad & j \in A_t \\
-0, \quad & else
-\end{cases}</script><p>如此一来，我们得到</p>
-<script type="math/tex; mode=display">
-Rcut(A_1,A_2,\dots,A_k)=\frac{1}{2}\sum\limits_{i=1}^k (f^t)^TLf^t=\frac{1}{2}Tr(F^TLF)</script><p>它表示的不再是 $L$ 中 $k$ 个对角块的和，而是加权求和，第 $t$ 个对角块的权重是 $\frac{1}{|A_t|}$。这样在样本更新时，就不再是容易地被划分到大的对角块内，因为大的对角块对应的权重就越小，这样就起到了一部分均衡作用。</p>
-<p>但是该问题并不好解决，于是人们就想，把这个离散的问题连续化：</p>
-<script type="math/tex; mode=display">
-\min\limits_{F^TF=I} Tr(F^TLF)</script><p>因为连续化之后问题变得相当简单。后续通过KMeans再补救回去。</p>
-<h3 id="3-NCut"><a href="#3-NCut" class="headerlink" title="3. NCut"></a>3. NCut</h3><p>考虑每一个类簇的度均衡，</p>
-<script type="math/tex; mode=display">
-Ncut(A_1,A_2,\dots,A_k)=\frac{1}{2}\sum\limits_{i=1}^k \frac{W(A_i,\bar{A_i})}{vol(A_i)}</script><p>$vol(A_t)=\sum\limits_{i \in A_t} d_i$</p>
-<p>$f^TDf = \sum\limits_{i=1}^nf_i^2d_i=\sum\limits_{i \in A_t}d_i = vol(A_t)$</p>
-<script type="math/tex; mode=display">
-Ncut(A_1,A_2,\dots,A_k)=\frac{1}{2}\sum\limits_{t=1}^k \frac{(f^t)^TLf^t}{(f^t)^TDf^t}</script><p>同样为了方便化简，我们希望 $(f^t)^TDf^t=1$, 所以有</p>
-<script type="math/tex; mode=display">
-f^t_j=
-\begin{cases}
-\frac{1}{\sqrt{vol(A_t)}}, \quad & j \in A_t \\
-0, \quad & else
-\end{cases}</script><p>于是</p>
-<script type="math/tex; mode=display">
-Ncut(A_1,A_2,\dots,A_k)=\frac{1}{2}\sum\limits_{t=1}^k (f^t)^TLf^t=\frac{1}{2}Tr(F^TLF)</script><p>同样，该问题也不好求解，故连续化成如下求解：</p>
-<script type="math/tex; mode=display">
-\min\limits_{F^TDF=I} Tr(F^TLF)</script><p>令$F=D^{-1/2}H$ , 那么 </p>
-<script type="math/tex; mode=display">
-F^TDF=H^TD^{-1/2}DD^{-1/2}H=H^TH=I \\
-F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/2}AD^{-1/2}$, 有</p>
-<script type="math/tex; mode=display">
-\min\limits_{H^TH=I} Tr(H^T\hat{L}H) => \min\limits_{F^TF=I} Tr(F^T\hat{L}F)</script><p>$\hat L$ 也叫<strong>标准化Laplacian Matrix</strong>, $\hat L_{ij}=\frac{L_{ij}}{\sqrt{d_i\times d_j}}$</p>
-
-          
+<li><p>Spectral Clustering</p></li></ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/28/经典无监督方法/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -935,9 +617,16 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       
         
           
-            <p>ref: Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs </p>
+          ref: Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs 
 
           
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/02/HNSW/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1130,14 +819,16 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       
         
           
-            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes</p>
-<h2 id="Kernel"><a href="#Kernel" class="headerlink" title="Kernel"></a>Kernel</h2><script type="math/tex; mode=display">\min\limits_{B, R}\left\| B-XWR \right\|_F^2</script><p>其中 $R \in R^{c \times c}​$ 是旋转矩阵，$B \in R^{n \times c}​$ 是超立方体的顶点坐标, $W \in R^{d \times c}​$ 表示投影矩阵；</p>
-<p><em>Step1.</em> 将数据集先用PCA等降维方法将数据从原始 $d​$ 维空间降维($W​$)至 $c​$ 维空间；</p>
-<p><em>Step2.</em> 对 $c$ 维空间中的样本点进行旋转($R$)，同时将旋转后的样本点映射到 $c$ 维空间某一立方体的顶点( $B$, 共 $2^c$ 个顶点)  ；</p>
-<p><em>Step3.</em> 迭代更新<em>Step2</em> 中的$R\&amp;B​$ , 使得映射之后的量化误差最小。</p>
-<h2 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h2><p>$W$ 能否自己学？</p>
-
-          
+          Introductionref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes
+Kernel\min\limits_{B, R}\left\| B-XWR \right\|_F^2其中 $R \in R
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/13/ITQ/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1341,9 +1032,16 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       
         
           
-            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Production quantization for nearest neighbor search</p>
+          Introductionref: Production quantization for nearest neighbor search
 
           
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/12/IVFPQ/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1525,20 +1223,15 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       
         
           
-            <h2 id="Approximate-Nearest-Neighbor-Search-初探"><a href="#Approximate-Nearest-Neighbor-Search-初探" class="headerlink" title="Approximate Nearest Neighbor Search 初探"></a>Approximate Nearest Neighbor Search 初探</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。</p>
-<script type="math/tex; mode=display">NN(q) = \arg \min\limits_{x \in X} d(q, x)</script><p>最朴素的办法,我们可以使用 <strong><em>Exact Search</em></strong>，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间，数据规模稍大（million）的情况下便无法应用上。</p>
-<p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法可分为以下大致4类：</p>
-<ol>
-<li>Tree: KD-Tree等；</li>
-<li>Hash: LSH等；</li>
-<li>Quantization: PQ, OPQ, LOPQ等；</li>
-<li>Graph: HNSW, NSG等;</li>
-<li>auxiliary：IMI等。</li>
-</ol>
-<p>其中Tree、Hash和Quantization Based的方法是基于空间划分的思想，将空间划分成<em>cell/Voronoi</em>，然后利用上某些辅助的索引结构，可以在检索的过程中起到同时降低 $N$ 和 $D$ 来减少计算复杂度，如IVFPQ(PQ + Inverted Index)。</p>
-<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。检索过程一般是通过降低 $N$ 来减少计算法复杂度。</p>
-
-          
+          Approximate Nearest Neighbor Search 初探对于一个检索任务：给定一个query $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/04/ANN/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1782,8 +1475,6 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
   
 
 
-  
-
 
 
 
@@ -1822,11 +1513,6 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -2026,7 +1712,7 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.6/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
