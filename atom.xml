@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Yuchaoy&#39;s Blog</title>
+  <title>Yuchao Yuan</title>
   
-  <subtitle>One Piece</subtitle>
+  <subtitle>Keep It Simple, Stupid</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuchaoy.github.io/"/>
@@ -10,7 +10,7 @@
   <id>https://yuchaoy.github.io/</id>
   
   <author>
-    <name>ZORO</name>
+    <name>Yuchao Yuan</name>
     
   </author>
   
