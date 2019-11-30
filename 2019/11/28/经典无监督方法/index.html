@@ -104,7 +104,7 @@
     root: '/',
     scheme: 'Gemini',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -970,7 +970,7 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PCA"><span class="nav-number">1.</span> <span class="nav-text">PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-方差最大化"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.方差最大化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-重构误差最小化"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.重构误差最小化</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#KMeans"><span class="nav-number">2.</span> <span class="nav-text">KMeans</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NMF"><span class="nav-number">3.</span> <span class="nav-text">NMF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SymNMF"><span class="nav-number">3.0.1.</span> <span class="nav-text">1.SymNMF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spectral-Clustering"><span class="nav-number">4.</span> <span class="nav-text">Spectral Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-Laplacian-Matrix"><span class="nav-number">4.0.1.</span> <span class="nav-text">0.Laplacian Matrix</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-1-Undirected-Graph-amp-affinity-matrix-amp-degree-matrix"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">0.1 Undirected Graph &amp; affinity matrix &amp; degree matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-2-similarity-matrix"><span class="nav-number">4.0.1.2.</span> <span class="nav-text">0.2 similarity matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-3-Laplacian-Matrix"><span class="nav-number">4.0.1.3.</span> <span class="nav-text">0.3 Laplacian Matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-4-Cut"><span class="nav-number">4.0.1.4.</span> <span class="nav-text">0.4 Cut</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-5-形式化Cut"><span class="nav-number">4.0.1.5.</span> <span class="nav-text">0.5 形式化Cut</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MinCut"><span class="nav-number">4.0.2.</span> <span class="nav-text">1. MinCut</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RCut"><span class="nav-number">4.0.3.</span> <span class="nav-text">2. RCut</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-NCut"><span class="nav-number">4.0.4.</span> <span class="nav-text">3. NCut</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PCA"><span class="nav-text">PCA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-方差最大化"><span class="nav-text">1.方差最大化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-重构误差最小化"><span class="nav-text">2.重构误差最小化</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#KMeans"><span class="nav-text">KMeans</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NMF"><span class="nav-text">NMF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SymNMF"><span class="nav-text">1.SymNMF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spectral-Clustering"><span class="nav-text">Spectral Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-Laplacian-Matrix"><span class="nav-text">0.Laplacian Matrix</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-1-Undirected-Graph-amp-affinity-matrix-amp-degree-matrix"><span class="nav-text">0.1 Undirected Graph &amp; affinity matrix &amp; degree matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-2-similarity-matrix"><span class="nav-text">0.2 similarity matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-3-Laplacian-Matrix"><span class="nav-text">0.3 Laplacian Matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-4-Cut"><span class="nav-text">0.4 Cut</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-5-形式化Cut"><span class="nav-text">0.5 形式化Cut</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MinCut"><span class="nav-text">1. MinCut</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RCut"><span class="nav-text">2. RCut</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-NCut"><span class="nav-text">3. NCut</span></a></li></ol></li></div>
             
 
           </div>
@@ -978,6 +978,13 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       <!--/noindex-->
       
 
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
       
 
     </div>
@@ -1045,11 +1052,6 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
     
