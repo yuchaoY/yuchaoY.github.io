@@ -854,6 +854,7 @@
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
    <script type="text/javascript">
         var gitalk = new Gitalk({
           clientID: 'efa4108678c0dd307618',
@@ -861,7 +862,7 @@
           repo: 'yuchaoY.github.io',
           owner: 'yuchaoY',
           admin: ['yuchaoY'],
-          id: location.pathname,
+          id: id: md5(location.pathname),
           distractionFreeMode: 'true'
         })
         gitalk.render('gitalk-container')           
