@@ -126,7 +126,7 @@ NexT.utils = NexT.$u = {
       'www.youtube.com',
       'player.vimeo.com',
       'player.youku.com',
-      //'music.163.com',
+      'music.163.com',
       'www.tudou.com'
     ];
     var pattern = new RegExp( SUPPORTED_PLAYERS.join('|') );
@@ -190,7 +190,7 @@ NexT.utils = NexT.$u = {
     }
 
     function getAspectRadio(width, height) {
-      return height / width * 100;
+      return height / width * 100 + 10; // + 10 for 163 Music Occlusion Problem
     }
   },
 
