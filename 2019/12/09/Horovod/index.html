@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="VQ,PQ,IVFADC,">
+  <meta name="keywords" content="Distributed Deep Learning,Horovod,">
 
 
 
@@ -81,18 +81,30 @@
 
 
 
-<meta name="description" content="Introductionref: Production quantization for nearest neighbor search">
-<meta name="keywords" content="VQ,PQ,IVFADC">
+<meta name="description" content="Distributed Deep Learning with Horovod看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制">
+<meta name="keywords" content="Distributed Deep Learning,Horovod">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IVFPQ">
-<meta property="og:url" content="https://yuchaoy.github.io/2019/03/12/IVFPQ/index.html">
+<meta property="og:title" content="Distributed Deep Learning with Horovod">
+<meta property="og:url" content="https://yuchaoy.github.io/2019/12/09/Horovod/index.html">
 <meta property="og:site_name" content="Yuchao Yuan">
-<meta property="og:description" content="Introductionref: Production quantization for nearest neighbor search">
+<meta property="og:description" content="Distributed Deep Learning with Horovod看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-13T14:55:54.771Z">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/model_data_parallelism.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/syn_update.jpg">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/asyn_update.jpg">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/ps.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/ringallreduce.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/scatter_reduce.gif">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/all_gather.gif">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/horovod-1.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/horovod-2.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/two_machine_workable.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/ssh_config.png">
+<meta property="og:updated_time" content="2019-12-09T02:04:39.154Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IVFPQ">
-<meta name="twitter:description" content="Introductionref: Production quantization for nearest neighbor search">
+<meta name="twitter:title" content="Distributed Deep Learning with Horovod">
+<meta name="twitter:description" content="Distributed Deep Learning with Horovod看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制">
+<meta name="twitter:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/model_data_parallelism.png">
 
 
 
@@ -122,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://yuchaoy.github.io/2019/03/12/IVFPQ/">
+  <link rel="canonical" href="https://yuchaoy.github.io/2019/12/09/Horovod/">
 
 
 
 
 
-  <title>IVFPQ | Yuchao Yuan</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Distributed Deep Learning with Horovod | Yuchao Yuan</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -299,7 +311,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/03/12/IVFPQ/">
+    <link itemprop="mainEntityOfPage" href="https://yuchaoy.github.io/2019/12/09/Horovod/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yuchao Yuan">
@@ -316,7 +328,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">IVFPQ</h1>
+          <h1 class="post-title" itemprop="name headline">Distributed Deep Learning with Horovod</h1>
         
 
         <div class="post-meta">
@@ -328,8 +340,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-12T22:19:09+08:00">
-                2019-03-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-09T10:05:57+08:00">
+                2019-12-09
               </time>
             
 
@@ -351,8 +363,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/" itemprop="url" rel="index">
-                    <span itemprop="name">ANN</span>
+                  <a href="/categories/Coding/" itemprop="url" rel="index">
+                    <span itemprop="name">Coding</span>
                   </a>
                 </span>
 
@@ -362,19 +374,8 @@
                 
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/Quantization/" itemprop="url" rel="index">
-                    <span itemprop="name">Quantization</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ANN/Quantization/PQ/" itemprop="url" rel="index">
-                    <span itemprop="name">PQ</span>
+                  <a href="/categories/Coding/Distributed-Deep-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Distributed Deep Learning</span>
                   </a>
                 </span>
 
@@ -390,7 +391,7 @@
 
           
           
-             <span id="/2019/03/12/IVFPQ/" class="leancloud_visitors" data-flag-title="IVFPQ">
+             <span id="/2019/12/09/Horovod/" class="leancloud_visitors" data-flag-title="Distributed Deep Learning with Horovod">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -415,7 +416,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  7
+                  2.8k
                 </span>
               
 
@@ -431,7 +432,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  11
                 </span>
               
             </div>
@@ -452,7 +453,89 @@
       
 
       
-        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Production quantization for nearest neighbor search</p>
+        <h1 id="Distributed-Deep-Learning-with-Horovod"><a href="#Distributed-Deep-Learning-with-Horovod" class="headerlink" title="Distributed Deep Learning with Horovod"></a>Distributed Deep Learning with Horovod</h1><p>看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制，后再介绍如何使用Horovod搭建多机训练平台。</p>
+<h2 id="分布式深度学习"><a href="#分布式深度学习" class="headerlink" title="分布式深度学习"></a>分布式深度学习</h2><h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>模型训练时间的长短主要取决于数据集的大小、模型的复杂度(模型的存储和计算量)和硬件资源的利用。而数据集的大小、模型的复杂度固定的情况下，如何充分利用集群/硬件资源来加速模型的训练，这就是分布式深度学习所要研究的内容。</p>
+<h4 id="模型复杂度的提升"><a href="#模型复杂度的提升" class="headerlink" title="模型复杂度的提升"></a>模型复杂度的提升</h4><p>无论是CV、NLP还是其它涉及到深度学习的领域，往往是模型的复杂度越高，模型的效果越好。所以对于某些偏向于追求效果的研究和应用，现阶段的模型复杂度都相当高，比如GPT-2的1.5 billion的参数。</p>
+<h4 id="数据集的增大"><a href="#数据集的增大" class="headerlink" title="数据集的增大"></a>数据集的增大</h4><p>BIG DATA时代，很多任务中的数据集往往都是特别大，甚至愈来愈大。比如推荐领域，大公司每天的日志量可能都是T级别及以上。</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>当前的分布式深度学习主要包含如下模块</p>
+<ul>
+<li>数据与模型划分：模型并行vs<strong>数据并行</strong></li>
+<li>单机优化：优化算法(略)</li>
+<li>通信机制：<strong>网络拓扑</strong>(ParameterServer vs Allreduce), <strong>通信步调</strong>(同步更新vs异步更新)</li>
+<li>模型聚合：对单机优化的模型参数/梯度进行汇总，更新新的参数(略)</li>
+</ul>
+<h3 id="模型并行vs数据并行"><a href="#模型并行vs数据并行" class="headerlink" title="模型并行vs数据并行"></a>模型并行vs数据并行</h3><p><img src="/2019/12/09/Horovod/model_data_parallelism.png" alt="model_data_parallelism"></p>
+<p>当模型过大无法在单机上存储时，会采用模型并行将模型分割到不通机器上，但多数情况下，一块常规显卡还是能承受住模型的存储开销的，目前训练数据量过大导致的模型训练速度慢才是分布式机器学习领域的主要矛盾。所以大多数情况下还是使用数据并行的方式，每台机器上平均分配一个batch的数据量。</p>
+<h3 id="同步更新vs异步更新"><a href="#同步更新vs异步更新" class="headerlink" title="同步更新vs异步更新"></a>同步更新vs异步更新</h3><p><img src="/2019/12/09/Horovod/syn_update.jpg" alt="syn"></p>
+<p><img src="/2019/12/09/Horovod/asyn_update.jpg" alt="syn"></p>
+<p>同步更新符合梯度下降的规则，但是更新的速度取决于运算最慢的那台机器。</p>
+<p>异步更新虽然不用等，但是会出现梯度延时的问题。<strong>如何设计高效的异步更新算法，这也是目前研究的一个热点。</strong></p>
+<h3 id="Parameter-Server-vs-Ring-Allreduce"><a href="#Parameter-Server-vs-Ring-Allreduce" class="headerlink" title="Parameter Server vs Ring Allreduce"></a>Parameter Server vs Ring Allreduce</h3><p>在分布式深度学习中，目前主流的通信拓扑结构是PS和Ring Allreduce。拿PS来说，至少经历了三次版本的迭代，这里不打算展开，主要介绍这两种结构的基本思想。</p>
+<p>首先看到一个简化的PS的结构：</p>
+<p><img src="/2019/12/09/Horovod/ps.png" alt="ps" style="zoom:50%;"></p>
+<p>图中GPU 0是server node，其余为worker node。</p>
+<p><strong>对于数据并行的同步更新训练过程，所有GPU上开始都存有模型的副本，每一轮迭代所有的worker需要将各自backward得到的参数梯度传递给server来做平均、更新，server更新好参数后再将其复制给所有的worker。</strong></p>
+<p><strong>两次传递过程的通信量分别是模型参数及其梯度</strong>。从上图可以明显看到，PS的瓶颈出现在<strong>server与其余worker之间的通信</strong>，在每一轮的迭代中，send和receive的一方总是单个GPU，如此大的通信量都是要和单个GPU打交道，而单个GPU的带宽是很有限的，随着worker数目增加，通信的开销将会越大。举例而言，假设需要训练的模型有300w参数，每个参数是4bytes，那么参数的memory就大约1.2G，最后再假设带宽是1G/s。那么当PS中只有两个node时，每次迭代大概需要1.2s。当PS中有9个worker一个server时，这个开销就至少是10.8s。也即说明随着worker的增加，通信的开销呈线性增长。</p>
+<p>为了解决这个问题，百度研究院将HPC中的技术引入了进来，也就是Ring Allreduce。</p>
+<p><img src="/2019/12/09/Horovod/ringallreduce.png" alt="ring" style="zoom:50%;"></p>
+<p><strong>Ring Allreduce中每一个结点都有一个左结点和右结点，并且每一个结点只能从左节点recv，向右结点send。</strong></p>
+<p>Ring Allreduce包含两个步骤：先Scatter-Reduce后Allgather，最终目的是在每个结点上都得到参数梯度的平均。</p>
+<p><strong>Scatter Reduce</strong> 首先在每个结点上将模型参数梯度划分成N个一致的chunks，其中N为Ring上GPU的个数。这样所有结点上模型的参数梯度组合形成一个方阵。同理，每个chunk都相应有自己的右chunk和左chunk，模型参数梯度划分成N个chunk会形成N个chunk ring。</p>
+<p>然后从参数梯度方阵对角线上的chunk开始，每个chunk向其右chunk send一份自己的备份，同时右chunk需要recv这个备份并加和。之后经过N-1次迭代，矩阵的右-1对角线chunk和左下角chunk会得到各自所在的chunk ring上所有chunk之和。</p>
+<p><img src="/2019/12/09/Horovod/scatter_reduce.gif" alt="scatter_reduce" style="zoom:50%;"></p>
+<p><strong>All Gather</strong> 在Scatter Reduce的基础上，每个GPU上都有一个chunk是其所在chunk ring上的参数梯度之和。所以只需要将这份chunk在其所在的ring上传播N-1次，那么每个GPU上就得到了所有结点上参数梯度之和，这也是All Gather所做的工作。之后各结点对参数梯度求平均即得到整个batch的平均梯度。</p>
+<p><img src="/2019/12/09/Horovod/all_gather.gif" alt="all_gather" style="zoom:50%;"></p>
+<h2 id="Horovod"><a href="#Horovod" class="headerlink" title="Horovod"></a>Horovod</h2><p>Horovod是一款分布式训练框架，可用于各大深度学习框架如TF、Pytorch、Keras和MXNet。虽然每一个深度学习框架本身也实现了各自的分布式训练功能，但实作中发现效果并不理想。如下是tensorflow提供的分布式训练效果：</p>
+<p><img src="/2019/12/09/Horovod/horovod-1.png" alt="horovod vs tf" style="zoom:67%;"></p>
+<p>可以很明显看到，tensorflow的加速比随着gpu的增加严重下滑,128卡的情况下居然较Ideal损耗了一半的性能。</p>
+<p>horovod就是针对这一问题才出现的，如下是horovod与tensorflow的对比：</p>
+<p><img src="/2019/12/09/Horovod/horovod-2.png" alt="horovod win tensorflow" style="zoom:67%;"></p>
+<p>可以看到horovod相较于Ideal性能损耗较小，想必这也是horovod在市面上留有一席之地的根本原因。</p>
+<h3 id="Horovod-配置与使用"><a href="#Horovod-配置与使用" class="headerlink" title="Horovod 配置与使用"></a>Horovod 配置与使用</h3><p>本文是基于docker环境的horovod配置，需要的主要原材料有：</p>
+<ul>
+<li>docker</li>
+<li>nvidia-docker</li>
+</ul>
+<h4 id="docker-amp-nvidia-docker安装"><a href="#docker-amp-nvidia-docker安装" class="headerlink" title="docker&amp;nvidia-docker安装"></a>docker&amp;nvidia-docker安装</h4><p>docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce</span><br></pre></td></tr></table></figure>
+<p>nvidia-docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \</span><br><span class="line">  sudo apt-key add -</span><br><span class="line">distribution=$(. /etc/os-release;<span class="built_in">echo</span> <span class="variable">$ID</span><span class="variable">$VERSION_ID</span>)</span><br><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/<span class="variable">$distribution</span>/nvidia-docker.list | \</span><br><span class="line">  sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install -y nvidia-docker2</span><br><span class="line">sudo pkill -SIGHUP dockerd</span><br></pre></td></tr></table></figure>
+<p>安装curl</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install curl</span><br></pre></td></tr></table></figure>
+<p>需要注意，可能会出现如下错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl: symbol lookup error: /opt/anaconda3/bin/../lib/libcurl.so.4: undefined symbol: sslv2_client_method</span><br></pre></td></tr></table></figure>
+<p>这是因为anaconda也带了openssl和curl，并且anaconda在环境变量里，所以使用curl的时候会用到anaconda中的curl，笔者在实验中发现这里的curl和openssl有问题，出现了上方的错误。我所采取的解决办法是将anaconda中的openssl和curl改名，然后重装openssl和curl即可。</p>
+<h3 id="Horovod-in-Docker"><a href="#Horovod-in-Docker" class="headerlink" title="Horovod in Docker"></a>Horovod in Docker</h3><p>为了简化GPU机器上的安装过程，Horovod项目发布了Dockerfile，方便我们使用docker来快速配置环境。该容器在/examples目录中包含了Horovod的使用示例。用户也可以在<a href="https://hub.docker.com/r/horovod/horovod/tags" target="_blank" rel="noopener">DockerHub</a>中直接下载预先构建好的容器。</p>
+<h4 id="Building"><a href="#Building" class="headerlink" title="Building"></a>Building</h4><p>在building之前，你可以根据需求对Dockerfile进行修改，比如不同的CUDA、TensorFlow和python版本，也可以在安装的命令中指定源，解决下载慢的问题。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir horovod-docker-gpu</span><br><span class="line">$ wget -O horovod-docker-gpu/Dockerfile https://raw.githubusercontent.com/horovod/horovod/master/Dockerfile.gpu</span><br><span class="line">$ docker build -t horovod:latest horovod-docker-gpu</span><br></pre></td></tr></table></figure>
+<h4 id="Running-on-a-single-machine"><a href="#Running-on-a-single-machine" class="headerlink" title="Running on a single machine"></a>Running on a single machine</h4><p>镜像构建好之后，使用 <code>nvidia-docker</code> 来启用容器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ nvidia-docker run -it horovod:latest</span><br><span class="line">root@c278c88dd552:/examples<span class="comment"># horovodrun -np 4 -H localhost:4 python keras_mnist_advanced.py</span></span><br></pre></td></tr></table></figure>
+<p>如果不是以<code>privileged</code>模式运行容器，可能会出现如下问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[a8c9914754d2:00040] Read -1, expected 131072, errno = 1</span><br></pre></td></tr></table></figure>
+<p>可以无视之。</p>
+<h4 id="Running-on-a-multiple-machines"><a href="#Running-on-a-multiple-machines" class="headerlink" title="Running on a multiple machines"></a>Running on a multiple machines</h4><p>想要在多机上进行训练，最关键的问题是多机之间的通信。下面采用SSH来进行多机之间的免密通信。</p>
+<p>首先，我们通过共享文件的方式，使每台机器下的<code>/mnt/share/ssh</code>与容器中的<code>/root/.ssh</code>进行绑定，并且在<code>/mnt/share/ssh</code>中，配置好<code>id_rsa</code>和<code>authorized_keys</code> 对来允许免密登录。</p>
+<p>Primary worker:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">host1$ nvidia-docker run -it --privileged --network=host -v /mnt/share/ssh:/root/.ssh horovod:latest</span><br><span class="line">root@c278c88dd552:/examples<span class="comment">#/usr/sbin/sshd -p 12345 &amp; horovodrun --start-timeout 1000 --verbose -np 16 -H host1:4,host2:4,host3:4,host4:4 -p 12345 python keras_mnist_ad</span></span><br></pre></td></tr></table></figure>
+<p>Secondary workers:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">host2$ nvidia-docker run -it --network=host -v /mnt/share/ssh:/root/.ssh horovod:latest \</span><br><span class="line">    bash -c <span class="string">"/usr/sbin/sshd -p 12345; sleep infinity"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">host3$ nvidia-docker run -it --network=host -v /mnt/share/ssh:/root/.ssh horovod:latest \</span><br><span class="line">    bash -c <span class="string">"/usr/sbin/sshd -p 12345; sleep infinity"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">host4$ nvidia-docker run -it --network=host -v /mnt/share/ssh:/root/.ssh horovod:latest \</span><br><span class="line">    bash -c <span class="string">"/usr/sbin/sshd -p 12345; sleep infinity"</span></span><br></pre></td></tr></table></figure>
+<p>以下是笔者成功在两台机器上运行成功的效果图：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpirun --allow-run-as-root --tag-output -np 6 -H w2:4,w1:2 -<span class="built_in">bind</span>-to none -map-by slot -mca pml ob1 -mca btl ^openib -mca plm_rsh_args <span class="string">"-p 12345"</span> -mca btl_tcp_if_include ppp0 -x NCCL_SOCKET_IFNAME=ppp0 -x CUDNN_VERSION -x LS_COLORS -x LD_LIBRARY_PATH -x MXNET_VERSION -x HOSTNAME -x NVIDIA_VISIBLE_DEVICES -x NCCL_VERSION -x PWD -x HOME -x TENSORFLOW_VERSION -x PYTORCH_VERSION -x LIBRARY_PATH -x TORCHVISION_VERSION -x TERM -x CUDA_PKG_VERSION -x CUDA_VERSION -x NVIDIA_DRIVER_CAPABILITIES -x PYTHON_VERSION -x SHLVL -x NVIDIA_REQUIRE_CUDA -x PATH -x _ -x HOROVOD_STALL_CHECK_TIME_SECONDS -x HOROVOD_STALL_SHUTDOWN_TIME_SECONDS -x HOROVOD_NUM_NCCL_STREAMS -x HOROVOD_MLSL_BGT_AFFINITY python keras_mnist_advanced.py</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/12/09/Horovod/two_machine_workable.png" alt="image-20191204101727329" style="zoom:50%;"></p>
+<p>由于笔者资源有限，只有两台机器，而且机器之间的网络传输最高速率只有100M，所以运行example的code并没能体现出多机的价值，性能还不及单机单卡。</p>
+<h3 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h3><p>再多机配置的过程中发现许多问题，因为时间久远，记录下比较深刻的一些。</p>
+<h4 id="1-数据传输验证"><a href="#1-数据传输验证" class="headerlink" title="1. 数据传输验证"></a>1. 数据传输验证</h4><p>之前说到了，多机训练最关键的是在多机之间的通信。如果master与slave之间的数据传输出了问题，铁定是不会成功的。这个时候需要我们对传输的有效性进行一步步的验证。</p>
+<h5 id="1-1-ssh免密验证"><a href="#1-1-ssh免密验证" class="headerlink" title="1.1 ssh免密验证"></a>1.1 ssh免密验证</h5><p>验证非常简单，在master(w2)中使用<code>ssh w1</code>看是否能够直接登录，可以的话就说明ssh的免密配置成功，否则重新配置一遍。</p>
+<p><img src="/2019/12/09/Horovod/ssh_config.png" alt="ssh_config"></p>
+<h5 id="1-2-scp远程传输测试"><a href="#1-2-scp远程传输测试" class="headerlink" title="1.2 scp远程传输测试"></a>1.2 scp远程传输测试</h5><p>虽然能够免密成功，但可能会出现传输不了文件的情况。这个时候可以在master机器和slave机器之间使用scp命令测试是否能够在多台机器之间完成数据传输。笔者就在实验中发现scp传输失败，网上尝试了贼多方法，最终发现是需要修改MTU的值，默认是1500。ppp0是我拨号上网的接口名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ip link <span class="built_in">set</span> ppp0 mtu 1492</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://medium.com/huggingface/training-larger-batches-practical-tips-on-1-gpu-multi-gpu-distributed-setups-ec88c3e51255" target="_blank" rel="noopener">Training Neural Nets on Larger Batches</a></p>
+<p><a href="http://fyubang.com/2019/07/08/distributed-training/" target="_blank" rel="noopener">单机多卡的正确打开方式（一）：理论基础</a></p>
+<p><a href="http://andrew.gibiansky.com/" target="_blank" rel="noopener">Bringing HPC Techniques to Deep Learning</a></p>
+<p><a href="https://www.cnblogs.com/bingmang/p/9813686.html" target="_blank" rel="noopener">docker/nvidia-docker 安装教程</a></p>
+<p><a href="https://github.com/horovod/horovod/blob/master/docs/docker.rst" target="_blank" rel="noopener">Horovod in Docker</a></p>
 
       
     </div>
@@ -470,11 +553,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/VQ/" rel="tag"># VQ</a>
+            <a href="/tags/Distributed-Deep-Learning/" rel="tag"># Distributed Deep Learning</a>
           
-            <a href="/tags/PQ/" rel="tag"># PQ</a>
-          
-            <a href="/tags/IVFADC/" rel="tag"># IVFADC</a>
+            <a href="/tags/Horovod/" rel="tag"># Horovod</a>
           
         </div>
       
@@ -487,8 +568,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/04/ANN/" rel="next" title="Approximate Nearest Neighbor Search 初探">
-                <i class="fa fa-chevron-left"></i> Approximate Nearest Neighbor Search 初探
+              <a href="/2019/11/28/经典无监督方法/" rel="next" title="经典无监督方法">
+                <i class="fa fa-chevron-left"></i> 经典无监督方法
               </a>
             
           </div>
@@ -496,10 +577,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/13/ITQ/" rel="prev" title="ITQ">
-                ITQ <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -659,7 +736,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-text">Introduction</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Distributed-Deep-Learning-with-Horovod"><span class="nav-text">Distributed Deep Learning with Horovod</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式深度学习"><span class="nav-text">分布式深度学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Background"><span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模型复杂度的提升"><span class="nav-text">模型复杂度的提升</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据集的增大"><span class="nav-text">数据集的增大</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类"><span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型并行vs数据并行"><span class="nav-text">模型并行vs数据并行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步更新vs异步更新"><span class="nav-text">同步更新vs异步更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parameter-Server-vs-Ring-Allreduce"><span class="nav-text">Parameter Server vs Ring Allreduce</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Horovod"><span class="nav-text">Horovod</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Horovod-配置与使用"><span class="nav-text">Horovod 配置与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-amp-nvidia-docker安装"><span class="nav-text">docker&amp;nvidia-docker安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Horovod-in-Docker"><span class="nav-text">Horovod in Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Building"><span class="nav-text">Building</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Running-on-a-single-machine"><span class="nav-text">Running on a single machine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Running-on-a-multiple-machines"><span class="nav-text">Running on a multiple machines</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Troubleshooting"><span class="nav-text">Troubleshooting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-数据传输验证"><span class="nav-text">1. 数据传输验证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-ssh免密验证"><span class="nav-text">1.1 ssh免密验证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-scp远程传输测试"><span class="nav-text">1.2 scp远程传输测试</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
             
 
           </div>
