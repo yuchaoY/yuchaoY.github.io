@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yuchaoy.github.io/"/>
-  <updated>2019-12-09T02:11:47.931Z</updated>
+  <updated>2019-12-09T02:13:11.377Z</updated>
   <id>https://yuchaoy.github.io/</id>
   
   <author>
@@ -21,11 +21,11 @@
     <link href="https://yuchaoy.github.io/2019/12/09/Horovod/"/>
     <id>https://yuchaoy.github.io/2019/12/09/Horovod/</id>
     <published>2019-12-09T02:05:57.000Z</published>
-    <updated>2019-12-09T02:11:47.931Z</updated>
+    <updated>2019-12-09T02:13:11.377Z</updated>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Distributed-Deep-Learning-with-Horovod&quot;&gt;&lt;a href=&quot;#Distributed-Deep-Learning-with-Horovod&quot; class=&quot;headerlink&quot; title=&quot;Distributed Deep Learning with Horovod&quot;&gt;&lt;/a&gt;Distributed Deep Learning with Horovod&lt;/h1&gt;&lt;p&gt;看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制，后再介绍如何使用Horovod搭建多机训练平台。&lt;/p&gt;
+      &lt;p&gt;看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制，后再介绍如何使用Horovod搭建多机训练平台。&lt;/p&gt;
     
     </summary>
     
