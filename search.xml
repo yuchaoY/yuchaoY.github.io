@@ -8,20 +8,20 @@
 <h2 id="分布式深度学习"><a href="#分布式深度学习" class="headerlink" title="分布式深度学习"></a>分布式深度学习</h2><h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>模型训练时间的长短主要取决于数据集的大小、模型的复杂度(模型的存储和计算量)和硬件资源的利用。而数据集的大小、模型的复杂度固定的情况下，如何充分利用集群/硬件资源来加速模型的训练，这就是分布式深度学习所要研究的内容。</p>
 <h4 id="模型复杂度的提升"><a href="#模型复杂度的提升" class="headerlink" title="模型复杂度的提升"></a>模型复杂度的提升</h4><p>无论是CV、NLP还是其它涉及到深度学习的领域，往往是模型的复杂度越高，模型的效果越好。所以对于某些偏向于追求效果的研究和应用，现阶段的模型复杂度都相当高，比如GPT-2的1.5 billion的参数。</p>
 <h4 id="数据集的增大"><a href="#数据集的增大" class="headerlink" title="数据集的增大"></a>数据集的增大</h4><p>BIG DATA时代，很多任务中的数据集往往都是特别大，甚至愈来愈大。比如推荐领域，大公司每天的日志量可能都是T级别及以上。</p>
-<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>当前的分布式深度学习主要包含如下模块</p>
+<h3 id="组成模块"><a href="#组成模块" class="headerlink" title="组成模块"></a>组成模块</h3><p>当前的分布式深度学习主要包含如下模块</p>
 <ul>
 <li>数据与模型划分：模型并行vs<strong>数据并行</strong></li>
 <li>单机优化：优化算法(略)</li>
 <li>通信机制：<strong>网络拓扑</strong>(ParameterServer vs Allreduce), <strong>通信步调</strong>(同步更新vs异步更新)</li>
 <li>模型聚合：对单机优化的模型参数/梯度进行汇总，更新新的参数(略)</li>
 </ul>
-<h3 id="模型并行vs数据并行"><a href="#模型并行vs数据并行" class="headerlink" title="模型并行vs数据并行"></a>模型并行vs数据并行</h3><p><img src="/2019/12/09/Horovod/model_data_parallelism.png" alt="model_data_parallelism"></p>
+<h4 id="模型并行vs数据并行"><a href="#模型并行vs数据并行" class="headerlink" title="模型并行vs数据并行"></a>模型并行vs数据并行</h4><p><img src="/2019/12/09/Horovod/model_data_parallelism.png" alt="model_data_parallelism"></p>
 <p>当模型过大无法在单机上存储时，会采用模型并行将模型分割到不通机器上，但多数情况下，一块常规显卡还是能承受住模型的存储开销的，目前训练数据量过大导致的模型训练速度慢才是分布式机器学习领域的主要矛盾。所以大多数情况下还是使用数据并行的方式，每台机器上平均分配一个batch的数据量。</p>
-<h3 id="同步更新vs异步更新"><a href="#同步更新vs异步更新" class="headerlink" title="同步更新vs异步更新"></a>同步更新vs异步更新</h3><p><img src="/2019/12/09/Horovod/syn_update.jpg" alt="syn"></p>
+<h4 id="同步更新vs异步更新"><a href="#同步更新vs异步更新" class="headerlink" title="同步更新vs异步更新"></a>同步更新vs异步更新</h4><p><img src="/2019/12/09/Horovod/syn_update.jpg" alt="syn"></p>
 <p><img src="/2019/12/09/Horovod/asyn_update.jpg" alt="syn"></p>
 <p>同步更新符合梯度下降的规则，但是更新的速度取决于运算最慢的那台机器。</p>
 <p>异步更新虽然不用等，但是会出现梯度延时的问题。<strong>如何设计高效的异步更新算法，这也是目前研究的一个热点。</strong></p>
-<h3 id="Parameter-Server-vs-Ring-Allreduce"><a href="#Parameter-Server-vs-Ring-Allreduce" class="headerlink" title="Parameter Server vs Ring Allreduce"></a>Parameter Server vs Ring Allreduce</h3><p>在分布式深度学习中，目前主流的通信拓扑结构是PS和Ring Allreduce。拿PS来说，至少经历了三次版本的迭代，这里不打算展开，主要介绍这两种结构的基本思想。</p>
+<h4 id="Parameter-Server-vs-Ring-Allreduce"><a href="#Parameter-Server-vs-Ring-Allreduce" class="headerlink" title="Parameter Server vs Ring Allreduce"></a>Parameter Server vs Ring Allreduce</h4><p>在分布式深度学习中，目前主流的通信拓扑结构是PS和Ring Allreduce。拿PS来说，至少经历了三次版本的迭代，这里不打算展开，主要介绍这两种结构的基本思想。</p>
 <p>首先看到一个简化的PS的结构：</p>
 <p><img src="/2019/12/09/Horovod/ps.png" alt="ps" style="zoom:50%;"></p>
 <p>图中GPU 0是server node，其余为worker node。</p>
