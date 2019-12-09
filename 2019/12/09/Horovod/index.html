@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/horovod-2.png">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/two_machine_workable.png">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/12/09/Horovod/ssh_config.png">
-<meta property="og:updated_time" content="2019-12-09T02:04:39.154Z">
+<meta property="og:updated_time" content="2019-12-09T02:11:47.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Distributed Deep Learning with Horovod">
 <meta name="twitter:description" content="Distributed Deep Learning with Horovod看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制">
@@ -454,6 +454,7 @@
 
       
         <h1 id="Distributed-Deep-Learning-with-Horovod"><a href="#Distributed-Deep-Learning-with-Horovod" class="headerlink" title="Distributed Deep Learning with Horovod"></a>Distributed Deep Learning with Horovod</h1><p>看完了一波分布式深度学习原理，并尝试使用pytorch实现本地两台gpu服务器(各4张卡)之间的通信，结果屡试屡败，太有挫败感，不得已弃之使用人人称道的Horovod。也是在这个时候比较系统地学习了一遍docker，并使用docker成功搭建好了基于Horovod的分布式深度学习环境。下面首先介绍分布式深度学习多机训练机制，后再介绍如何使用Horovod搭建多机训练平台。</p>
+<a id="more"></a> 
 <h2 id="分布式深度学习"><a href="#分布式深度学习" class="headerlink" title="分布式深度学习"></a>分布式深度学习</h2><h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>模型训练时间的长短主要取决于数据集的大小、模型的复杂度(模型的存储和计算量)和硬件资源的利用。而数据集的大小、模型的复杂度固定的情况下，如何充分利用集群/硬件资源来加速模型的训练，这就是分布式深度学习所要研究的内容。</p>
 <h4 id="模型复杂度的提升"><a href="#模型复杂度的提升" class="headerlink" title="模型复杂度的提升"></a>模型复杂度的提升</h4><p>无论是CV、NLP还是其它涉及到深度学习的领域，往往是模型的复杂度越高，模型的效果越好。所以对于某些偏向于追求效果的研究和应用，现阶段的模型复杂度都相当高，比如GPT-2的1.5 billion的参数。</p>
 <h4 id="数据集的增大"><a href="#数据集的增大" class="headerlink" title="数据集的增大"></a>数据集的增大</h4><p>BIG DATA时代，很多任务中的数据集往往都是特别大，甚至愈来愈大。比如推荐领域，大公司每天的日志量可能都是T级别及以上。</p>
