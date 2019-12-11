@@ -81,23 +81,23 @@
 
 
 
-<meta name="description" content="Approximate Nearest Neighbor Search对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法">
+<meta name="description" content="对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法是使用 Exact Search，穷举 $q$ 到 $N$ 个样本点之">
 <meta name="keywords" content="quantization">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Quantization Method In Approximate Nearest Neighbor Search">
 <meta property="og:url" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/index.html">
 <meta property="og:site_name" content="Yuchao Yuan">
-<meta property="og:description" content="Approximate Nearest Neighbor Search对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法">
+<meta property="og:description" content="对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法是使用 Exact Search，穷举 $q$ 到 $N$ 个样本点之">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/pq_1.png">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/pq_2.png">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/opq_1.png">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/opq_2.png">
 <meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/mcq_1.png">
-<meta property="og:updated_time" content="2019-12-11T08:54:06.194Z">
+<meta property="og:updated_time" content="2019-12-11T08:55:54.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Quantization Method In Approximate Nearest Neighbor Search">
-<meta name="twitter:description" content="Approximate Nearest Neighbor Search对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法">
+<meta name="twitter:description" content="对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法是使用 Exact Search，穷举 $q$ 到 $N$ 个样本点之">
 <meta name="twitter:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/pq_1.png">
 
 
@@ -447,9 +447,10 @@
       
 
       
-        <h2 id="Approximate-Nearest-Neighbor-Search"><a href="#Approximate-Nearest-Neighbor-Search" class="headerlink" title="Approximate Nearest Neighbor Search"></a>Approximate Nearest Neighbor Search</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。</p>
+        <p>对于一个检索任务：给定一个<em>query</em> $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。</p>
 <script type="math/tex; mode=display">
 NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这个问题，最朴素的办法是使用 <strong><em>Exact Search</em></strong>，穷举 $q$ 到 $N$ 个样本点之间的距离，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间同时对存储空间也有要求，数据规模稍大（million）的情况下便无法应用上。</p>
+<a id="more"></a> 
 <p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法都是试图构建一种特殊的数据索引结构，大致可分为以下4类+用于辅助的索引结构方法：</p>
 <ol>
 <li>Tree: KD-Tree等；</li>
@@ -716,7 +717,7 @@ s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Approximate-Nearest-Neighbor-Search"><span class="nav-text">Approximate Nearest Neighbor Search</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quantization-Method：A-Brief-Story"><span class="nav-text">Quantization Method：A Brief Story</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Vector-Quantization-VQ"><span class="nav-text">Vector Quantization(VQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Product-Quantization-PQ"><span class="nav-text">Product Quantization(PQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Optimized-Product-Quantization-OPQ"><span class="nav-text">Optimized Product Quantization(OPQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Locally-optimized-product-quantization-LOPQ"><span class="nav-text">Locally optimized product quantization(LOPQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Non-orthogonal-Multi-Codebook-Quantization-MCQ"><span class="nav-text">Non-orthogonal Multi-Codebook Quantization(MCQ)</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quantization-Method：A-Brief-Story"><span class="nav-text">Quantization Method：A Brief Story</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Vector-Quantization-VQ"><span class="nav-text">Vector Quantization(VQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Product-Quantization-PQ"><span class="nav-text">Product Quantization(PQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Optimized-Product-Quantization-OPQ"><span class="nav-text">Optimized Product Quantization(OPQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Locally-optimized-product-quantization-LOPQ"><span class="nav-text">Locally optimized product quantization(LOPQ)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Non-orthogonal-Multi-Codebook-Quantization-MCQ"><span class="nav-text">Non-orthogonal Multi-Codebook Quantization(MCQ)</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></div>
             
 
           </div>
@@ -757,7 +758,7 @@ s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9.3k</span>
+    <span title="Site words total count">9.2k</span>
   
 </div>
 

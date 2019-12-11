@@ -75,17 +75,13 @@
     <link href="https://yuchaoy.github.io/2019/03/04/QuantizationANN/"/>
     <id>https://yuchaoy.github.io/2019/03/04/QuantizationANN/</id>
     <published>2019-03-04T08:19:52.000Z</published>
-    <updated>2019-12-11T08:54:06.194Z</updated>
+    <updated>2019-12-11T08:55:54.396Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          
-        
-      
+      &lt;p&gt;对于一个检索任务：给定一个&lt;em&gt;query&lt;/em&gt; $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}&lt;/script&gt;&lt;p&gt;想要解决这个问题，最朴素的办法是使用 &lt;strong&gt;&lt;em&gt;Exact Search&lt;/em&gt;&lt;/strong&gt;，穷举 $q$ 到 $N$ 个样本点之间的距离，这样一定能准确地找到离 $q$ 最近的样本。但由于 &lt;em&gt;Exact Search&lt;/em&gt; 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在&lt;strong&gt;毫秒级&lt;/strong&gt;的响应时间同时对存储空间也有要求，数据规模稍大（million）的情况下便无法应用上。&lt;/p&gt;
     
     </summary>
     

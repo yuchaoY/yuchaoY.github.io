@@ -847,11 +847,9 @@
 
       
         
-          
-          Approximate Nearest Neighbor Search对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。
-
-NN(q) = \arg \mi
-          ...
+          <p>对于一个检索任务：给定一个<em>query</em> $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。</p>
+<script type="math/tex; mode=display">
+NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这个问题，最朴素的办法是使用 <strong><em>Exact Search</em></strong>，穷举 $q$ 到 $N$ 个样本点之间的距离，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间同时对存储空间也有要求，数据规模稍大（million）的情况下便无法应用上。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/03/04/QuantizationANN/#more" rel="contents">
@@ -1038,7 +1036,7 @@ NN(q) = \arg \mi
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9.3k</span>
+    <span title="Site words total count">9.2k</span>
   
 </div>
 

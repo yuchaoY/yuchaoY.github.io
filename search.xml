@@ -441,9 +441,10 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
   <entry>
     <title>Quantization Method In Approximate Nearest Neighbor Search</title>
     <url>/2019/03/04/QuantizationANN/</url>
-    <content><![CDATA[<h2 id="Approximate-Nearest-Neighbor-Search"><a href="#Approximate-Nearest-Neighbor-Search" class="headerlink" title="Approximate Nearest Neighbor Search"></a>Approximate Nearest Neighbor Search</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。</p>
+    <content><![CDATA[<p>对于一个检索任务：给定一个<em>query</em> $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。</p>
 <script type="math/tex; mode=display">
 NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这个问题，最朴素的办法是使用 <strong><em>Exact Search</em></strong>，穷举 $q$ 到 $N$ 个样本点之间的距离，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间同时对存储空间也有要求，数据规模稍大（million）的情况下便无法应用上。</p>
+<a id="more"></a> 
 <p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法都是试图构建一种特殊的数据索引结构，大致可分为以下4类+用于辅助的索引结构方法：</p>
 <ol>
 <li>Tree: KD-Tree等；</li>
