@@ -462,7 +462,7 @@ NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这�
 <p>下面主要叙述近年来比较经典的量化方法，它们都可以看成是在优化同一个目标函数，只是不同的方法对应有不同的约束。</p>
 <h4 id="Vector-Quantization-VQ"><a href="#Vector-Quantization-VQ" class="headerlink" title="Vector Quantization(VQ)"></a>Vector Quantization(VQ)</h4><p>作为最经典的量化方法，VQ使用<em>MSE</em>来衡量量化效果：</p>
 <script type="math/tex; mode=display">
-\min\limits_{C}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {2} \label{eq: equ2}</script><p>当给定 <em>codebook</em> $C$ 时，上式满足 <em>Lloyd’s condition</em>: $p(x_i)$ 必须将 $x_i$ 映射到 $C$ 中离它最近的<em>codeword</em> 的 <em>index</em>。<em>Lloyd’s condition</em>不论当 <em>codebook</em> 是什么形式都必须被满足。上式等价于<em>K-means</em>，求解 $C$ 的过程也和<em>K-means</em>一样。其中$p(x) \in \{1, 2,…, k\}$ , 故原式也可以写成：</p>
+\min\limits_{C}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {2} \label{eq: eq2}</script><p>当给定 <em>codebook</em> $C$ 时，上式满足 <em>Lloyd’s condition</em>: $p(x_i)$ 必须将 $x_i$ 映射到 $C$ 中离它最近的<em>codeword</em> 的 <em>index</em>。<em>Lloyd’s condition</em>不论当 <em>codebook</em> 是什么形式都必须被满足。上式等价于<em>K-means</em>，求解 $C$ 的过程也和<em>K-means</em>一样。其中$p(x) \in \{1, 2,…, k\}$ , 故原式也可以写成：</p>
 <script type="math/tex; mode=display">
 \min\limits_{C, G \in Ind}\left\| X-CG \right\|_F^2 \tag {3}</script><p>此时，$C$ 表示 $k$ 个聚类中心，$G=[g_1, g_2,…, g_n] \in \{0, 1\}^{k \times n}$ 是<em>Indicator Matrix</em>，$g_i$ 只有第 $j$ 个元素为1，表示第 $i$ 个样本隶属第 $j$ 个聚类中心。</p>
 <p>由于我们将 $n$ 个样本映射成 $k$ 个<em>codeword</em>，于是我们也能知道每一个样本点所隶属的<em>codeword</em>。那么在检索阶段，<em>query</em>到每个样本点之间的距离，只需要通过计算<em>query</em>到这 $k$ 个<em>codeword</em>之间的距离得到一个长度为$k$ 的<em>lookup table</em>。假设样本点 $x_i$ 隶属于第 $j$ 个<em>codeword</em>，然后<em>query</em>到 $x_i$ 的距离就可以通过查找表的第 $j$ 个值来近似。</p>
@@ -473,7 +473,7 @@ NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这�
 <p>我们可以想象，当$k$一直增大到$n$时，此时每个样本单独成一类，此时的VQ就等价<em>Exact Search</em>，<em>recall</em>能达到最好，但是却不适用。实际使用中由于存储设备和检索时间的约束，$k$ 值一般不会取得特别大。</p>
 <h4 id="Product-Quantization-PQ"><a href="#Product-Quantization-PQ" class="headerlink" title="Product Quantization(PQ)"></a>Product Quantization(PQ)</h4><p>2012年，<strong>Hervé Jégou</strong>等人提出了PQ，其主要思想是将原始 $d$ 维样本空间等长度切分为 $m$ 个正交的子空间，每个子空间的维度是 $\frac{d}{m}$, 由此在<em>ANN</em>领域中开辟了新的方向，吸引了很多学者的关注。 PQ问题可以表述成下式：</p>
 <script type="math/tex; mode=display">
-\min\limits_{C_1, C_2, ..., C_m}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {4} \label{eq: equ4}</script><script type="math/tex; mode=display">
+\min\limits_{C_1, C_2, ..., C_m}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {4} \label{eq: eq4}</script><script type="math/tex; mode=display">
 s.t. q \in C = C_1 \times C_2 \times ... \times C_m​</script><p> $C_j$ 表示第 $j$ 个子空间的<em>codebook</em>，式 $\eqref{eq: eq4} $ 在式 $\eqref{eq: eq2} $ 的基础上对<em>codebook</em>加上了约束，使得此时的<em>codebook</em> $C$ 由每一个子空间的<em>codebook</em>的笛卡儿积构成。这么做最大的好处就是在与<em>K-means</em>在使用相同的<em>codebook</em>存储容量的情况下，能表示更多的codeword。假设聚类个数 $k$ 取256，PQ的每一个<em>codebook</em> 有256个<em>codeword</em> ,当 $m$ 取4，此时那么PQ方法能表示的codeword的总数是 $256^4$ ，远多于 <em>k-means</em> 所能表示的256个。</p>
 <p><img src="/2019/03/04/QuantizationANN/pq_1.png" alt="pq_1"></p>
 <p>该问题的优化过程等价于对 $m$ 个子空间分别进行<em>K-means</em>。</p>
