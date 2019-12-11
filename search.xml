@@ -439,75 +439,173 @@ F^TLF=H^TD^{-1/2}LD^{-1/2}H</script><p>令 $\hat{L} = D^{-1/2}LD^{-1/2}=I-D^{-1/
       </tags>
   </entry>
   <entry>
-    <title>HNSW</title>
-    <url>/2019/04/02/HNSW/</url>
-    <content><![CDATA[<p>ref: Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs </p>
-]]></content>
-      <categories>
-        <category>ANN</category>
-        <category>Graph</category>
-      </categories>
-      <tags>
-        <tag>HNSW</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ITQ</title>
-    <url>/2019/03/13/ITQ/</url>
-    <content><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Iterative Quantization: A Procrustean Approach to Learning Binary Codes</p>
-<h2 id="Kernel"><a href="#Kernel" class="headerlink" title="Kernel"></a>Kernel</h2><script type="math/tex; mode=display">\min\limits_{B, R}\left\| B-XWR \right\|_F^2</script><p>其中 $R \in R^{c \times c}​$ 是旋转矩阵，$B \in R^{n \times c}​$ 是超立方体的顶点坐标, $W \in R^{d \times c}​$ 表示投影矩阵；</p>
-<p><em>Step1.</em> 将数据集先用PCA等降维方法将数据从原始 $d​$ 维空间降维($W​$)至 $c​$ 维空间；</p>
-<p><em>Step2.</em> 对 $c$ 维空间中的样本点进行旋转($R$)，同时将旋转后的样本点映射到 $c$ 维空间某一立方体的顶点( $B$, 共 $2^c$ 个顶点)  ；</p>
-<p><em>Step3.</em> 迭代更新<em>Step2</em> 中的$R\&amp;B​$ , 使得映射之后的量化误差最小。</p>
-<h2 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h2><p>$W$ 能否自己学？</p>
-]]></content>
-      <categories>
-        <category>ANN</category>
-        <category>Quantization</category>
-      </categories>
-      <tags>
-        <tag>Procrustean</tag>
-        <tag>Binary Code</tag>
-        <tag>Similarity Preserving</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IVFPQ</title>
-    <url>/2019/03/12/IVFPQ/</url>
-    <content><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>ref: Production quantization for nearest neighbor search</p>
-]]></content>
-      <categories>
-        <category>ANN</category>
-        <category>Quantization</category>
-        <category>PQ</category>
-      </categories>
-      <tags>
-        <tag>VQ</tag>
-        <tag>PQ</tag>
-        <tag>IVFADC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Approximate Nearest Neighbor Search 初探</title>
-    <url>/2019/03/04/ANN/</url>
-    <content><![CDATA[<h2 id="Approximate-Nearest-Neighbor-Search-初探"><a href="#Approximate-Nearest-Neighbor-Search-初探" class="headerlink" title="Approximate Nearest Neighbor Search 初探"></a>Approximate Nearest Neighbor Search 初探</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^d$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。类似地可以扩展到寻找 $K$ 近邻。</p>
-<script type="math/tex; mode=display">NN(q) = \arg \min\limits_{x \in X} d(q, x)</script><p>最朴素的办法,我们可以使用 <strong><em>Exact Search</em></strong>，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间，数据规模稍大（million）的情况下便无法应用上。</p>
-<p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法可分为以下大致4类：</p>
+    <title>Quantization Method In Approximate Nearest Neighbor Search</title>
+    <url>/2019/03/04/QuantizationANN/</url>
+    <content><![CDATA[<h2 id="Approximate-Nearest-Neighbor-Search"><a href="#Approximate-Nearest-Neighbor-Search" class="headerlink" title="Approximate Nearest Neighbor Search"></a>Approximate Nearest Neighbor Search</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。</p>
+<script type="math/tex; mode=display">
+NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这个问题，最朴素的办法是使用 <strong><em>Exact Search</em></strong>，穷举 $q$ 到 $N$ 个样本点之间的距离，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间同时对存储空间也有要求，数据规模稍大（million）的情况下便无法应用上。</p>
+<p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法都是试图构建一种特殊的数据索引结构，大致可分为以下4类+用于辅助的索引结构方法：</p>
 <ol>
 <li>Tree: KD-Tree等；</li>
-<li>Hash: LSH等；</li>
-<li>Quantization: PQ, OPQ, LOPQ等；</li>
+<li>Hash: LSH, ITQ等；</li>
+<li>Quantization: PQ, OPQ, LSQ++等；</li>
 <li>Graph: HNSW, NSG等;</li>
 <li>auxiliary：IMI等。</li>
 </ol>
-<p>其中Tree、Hash和Quantization Based的方法是基于空间划分的思想，将空间划分成<em>cell/Voronoi</em>，然后利用上某些辅助的索引结构，可以在检索的过程中起到同时降低 $N$ 和 $D$ 来减少计算复杂度，如IVFPQ(PQ + Inverted Index)。</p>
-<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。检索过程一般是通过降低 $N$ 来减少计算法复杂度。</p>
+<p>其中Tree、Hash和Quantization Based的方法一般是基于空间划分的思想，将空间划分成<em>cell/Voronoi</em>，然后利用上某些辅助的索引结构，可以在检索的过程中起到同时降低 $N$ 和 $D$ 来减少检索复杂度，如IVFPQ(PQ + Inverted Index)。</p>
+<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。</p>
+<p>trade-off: recall, speed, memory.</p>
+<h2 id="Quantization-Method：A-Brief-Story"><a href="#Quantization-Method：A-Brief-Story" class="headerlink" title="Quantization Method：A Brief Story"></a>Quantization Method：A Brief Story</h2><p><strong>量化的目的就是减小原始空间的势(cardinality)</strong>。</p>
+<p>假定样本集 $X = [x_1, x_2,…,x_n] \in R^{d \times n}$ ，量化则试图找到一个<em>quantizer</em>(一种变换)将样本从 $R^{d \times n}$ 映射到一个有限的集合 $C = [c_1, c_2, … c_k]\in R^{d \times k}$ 中，映射之后的样本 $x_i$ 则可以用集合 $C$ 中的某一元素 $c_j$ <strong>表示</strong>，同时我们希望 $x_i$ 和 $c_j$ 的距离尽可能小。其中集合$C$ 也叫<em>codebook</em> ， $C$ 中每一个元素称为<em>codeword</em>。</p>
+<p>量化的过程可以看作是由一个编码器 $p$ 和解码器 $q$ 两个函数来表示。在给定$C$ 的前提下，$p$ 将样本编码成一个<em>index</em>，$q$ 则根据 $p$ 产生的<em>index</em>从 $C$ 中找出 <em>index</em> 对应的 <em>codeword</em> 。</p>
+<p>下面主要叙述近年来比较经典的量化方法，它们都可以看成是在优化同一个目标函数，只是不同的方法对应有不同的约束。</p>
+<h4 id="Vector-Quantization-VQ"><a href="#Vector-Quantization-VQ" class="headerlink" title="Vector Quantization(VQ)"></a>Vector Quantization(VQ)</h4><p>作为最经典的量化方法，VQ使用<em>MSE</em>来衡量量化效果：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {2} \label{eq: equ2}</script><p>当给定 <em>codebook</em> $C$ 时，上式满足 <em>Lloyd’s condition</em>: $p(x_i)$ 必须将 $x_i$ 映射到 $C$ 中离它最近的<em>codeword</em> 的 <em>index</em>。<em>Lloyd’s condition</em>不论当 <em>codebook</em> 是什么形式都必须被满足。上式等价于<em>K-means</em>，求解 $C$ 的过程也和<em>K-means</em>一样。其中$p(x) \in \{1, 2,…, k\}$ , 故原式也可以写成：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C, G \in Ind}\left\| X-CG \right\|_F^2 \tag {3}</script><p>此时，$C$ 表示 $k$ 个聚类中心，$G=[g_1, g_2,…, g_n] \in \{0, 1\}^{k \times n}$ 是<em>Indicator Matrix</em>，$g_i$ 只有第 $j$ 个元素为1，表示第 $i$ 个样本隶属第 $j$ 个聚类中心。</p>
+<p>由于我们将 $n$ 个样本映射成 $k$ 个<em>codeword</em>，于是我们也能知道每一个样本点所隶属的<em>codeword</em>。那么在检索阶段，<em>query</em>到每个样本点之间的距离，只需要通过计算<em>query</em>到这 $k$ 个<em>codeword</em>之间的距离得到一个长度为$k$ 的<em>lookup table</em>。假设样本点 $x_i$ 隶属于第 $j$ 个<em>codeword</em>，然后<em>query</em>到 $x_i$ 的距离就可以通过查找表的第 $j$ 个值来近似。</p>
+<p>训练过程等同于<em>K-means</em>，时间复杂度为 $O(ndk)$ ，空间复杂度为 $O((n+k)d)$ 。检索时计算<em>query</em>到 $n$ 个样本距离的空间复杂度为 $O(kd)$ ，时间复杂度为 $O(n+kd)$  。为了避免于<em>exact search</em>，我们可以建立一个<em>inverted file structure</em> $Z$，$Z$ 可以看作是一个<em>dictionary</em>，有 $k$ 个 <em>key</em>，第 $j$ 个<em>key</em>对应的<em>value</em>表示所有隶属于第$j$ 个<em>codeword</em>的样本的index组成的<em>List</em>。 那么当我们使用VQ来进行检索时，首先<em>query</em>只需要跟 $k$ 个<em>codeword</em>计算距离，假设找到离最近的<em>codeword</em>是 $c_j$ ，那么只需要在 $Z[j]$ 中的样本里头进行<em>exact search</em> 找到最近邻。</p>
+<p>通过实验发现，VQ一般具有如下性质：</p>
+<p>1.目标函数值越小，检索效果会越好；所以可以通过降低目标函数值来提升检索效果。</p>
+<p>2.$k$ 值越大，目标函数值会越小。所以可以通过增大 $k$ 来提升检索效果。</p>
+<p>我们可以想象，当$k$一直增大到$n$时，此时每个样本单独成一类，此时的VQ就等价<em>Exact Search</em>，<em>recall</em>能达到最好，但是却不适用。实际使用中由于存储设备和检索时间的约束，$k$ 值一般不会取得特别大。</p>
+<h4 id="Product-Quantization-PQ"><a href="#Product-Quantization-PQ" class="headerlink" title="Product Quantization(PQ)"></a>Product Quantization(PQ)</h4><p>2012年，<strong>Hervé Jégou</strong>等人提出了PQ，其主要思想是将原始 $d$ 维样本空间等长度切分为 $m$ 个正交的子空间，每个子空间的维度是 $\frac{d}{m}$, 由此在<em>ANN</em>领域中开辟了新的方向，吸引了很多学者的关注。 PQ问题可以表述成下式：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C_1, C_2, ..., C_m}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {4} \label{eq: equ4}</script><script type="math/tex; mode=display">
+s.t. q \in C = C_1 \times C_2 \times ... \times C_m​</script><p> $C_j$ 表示第 $j$ 个子空间的<em>codebook</em>，式 $\eqref{eq: eq4} $ 在式 $\eqref{eq: eq2} $ 的基础上对<em>codebook</em>加上了约束，使得此时的<em>codebook</em> $C$ 由每一个子空间的<em>codebook</em>的笛卡儿积构成。这么做最大的好处就是在与<em>K-means</em>在使用相同的<em>codebook</em>存储容量的情况下，能表示更多的codeword。假设聚类个数 $k$ 取256，PQ的每一个<em>codebook</em> 有256个<em>codeword</em> ,当 $m$ 取4，此时那么PQ方法能表示的codeword的总数是 $256^4$ ，远多于 <em>k-means</em> 所能表示的256个。</p>
+<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555681620379.png" alt="1555681620379"></p>
+<p>该问题的优化过程等价于对 $m$ 个子空间分别进行<em>K-means</em>。</p>
+<p>检索时的时间复杂度为 $O(kd+nm)$ ，空间复杂度为 $O(kd+nm)$ 。</p>
+<p>为了进一步加快检索过程，作者在PQ的基础上加上了基于<em>k-means</em>的<em>Inverted file structure</em>, 第 $i$ 个 <em>inverted list</em> 存储的是隶属第 $i$ 类样本的id和样本到聚类中心的残差经过PQ编码之后的code。此时的<em>k-means</em> 可以被看作是粗过滤，目的是减少query所需遍历的样本个数。</p>
+<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555570709941.png" alt="1555570709941"></p>
+<h4 id="Optimized-Product-Quantization-OPQ"><a href="#Optimized-Product-Quantization-OPQ" class="headerlink" title="Optimized Product Quantization(OPQ)"></a>Optimized Product Quantization(OPQ)</h4><p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555841142269.png" alt="1555841142269"></p>
+<p>前面已经说到，使用<em>k-means</em> 时增大 $k$ 对量化误差最小化是有好处的，但是实际中往往受限于内存和时间。而且$k$ 过大训练阶段的开销也成问题，所以实际中并不常用。PQ能够很好的增大 $k$ 来减小量化误差，如上图 $(b)$ 所示，在每个子空间只聚了8个类。仔细观察我们可以发现， $(b)$ 中的样本点并没有很好的“附着“在 <em>codeword</em> 上，如果此时对数据/样本点做一个旋转变化，可以使更多中心附着在样本上，使得目标函数值进一步减小，如 $(c)$ 。</p>
+<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555841179115.png" alt="1555841179115"></p>
+<p>在PQ的基础上，寻找一个最优的旋转矩阵 $R$ 使量化误差最小，可以表述成如下优化问题：</p>
+<script type="math/tex; mode=display">
+\min\limits_{R, C_1, ..., C_M} \sum\limits_{i=1}^N\| x_i - q(p(x_i)) \|_2^2 \tag{5}</script><script type="math/tex; mode=display">
+s.t. q\in C = \{Rc^{'} | c^{'} \in C_1\times C_2 \times ... \times C_M, R^TR=I \}</script><p>该问题可以使用交替优化的方式求解：</p>
+<p>1.Fix $R$：原问题 $(5)$ 等价于PQ问题；</p>
+<p>2.Fix $C_1, C_2,…,C_M$：令 $Y=[y_1, y_2,…y_N]$ ，$y_i$ 对应 $x_i$ 隶属的<em>codeword</em> ,  $(5)$等价于</p>
+<script type="math/tex; mode=display">
+\min\limits_R \| X-RY \|_F^2</script><p>该问题是一个典型的<em>Orthogonal Procrustes Problem</em>，</p>
+<script type="math/tex; mode=display">
+\begin{align}
+R & =\arg \min\limits_R \| RY-X \|_F^2 \\
+  & =\arg \min \|Y\|_F^2 + \|X\|_F^2 - 2<RY, X> \\
+  & = \arg \max <R, XY^T> \\
+  & = \arg \max <R, U\Sigma V^T> \\
+  & = \arg \max <U^TRV, \Sigma> \\
+\end{align}</script><p>由于$U^TRV$ 是正交矩阵，所以$I = U^TRV$ , $R = UV^T$ .</p>
+<h4 id="Locally-optimized-product-quantization-LOPQ"><a href="#Locally-optimized-product-quantization-LOPQ" class="headerlink" title="Locally optimized product quantization(LOPQ)"></a>Locally optimized product quantization(LOPQ)</h4><p>在IVFPQ的基础上，对inverted file structure中每一个inverted list中的残差向量进行OPQ。</p>
+<h4 id="Non-orthogonal-Multi-Codebook-Quantization-MCQ"><a href="#Non-orthogonal-Multi-Codebook-Quantization-MCQ" class="headerlink" title="Non-orthogonal Multi-Codebook Quantization(MCQ)"></a>Non-orthogonal Multi-Codebook Quantization(MCQ)</h4><p>前面基于PQ的方法都是假设样本具有 $M$ 个相互正交的属性组，然后在这 $M$ 个属性组中进行 <em>k-means</em> 产生 $M$ 个正交的 <em>codebook</em>，于是每一个向量 $x$ 都可以由分别从这 $M$ 个<em>codebook</em>中选取的一个<em>codeword</em>进行拼接后的向量来表示。在实际中，数据的每一个属性往往都不是正交的，所以实际中量化的效果还是有进一步的的提升空间。如下图PQ code所示。</p>
+<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555572134655.png" alt="1555572134655"></p>
+<p>最近的工作更多关注于使用 $M$ 个非正交的<em>codebook</em>对向量进行表示，每一个向量 $x$ 都可以由分别从这 $M$ 个<em>codebook</em> 中选取的一个<em>codeword</em> 相加后的向量来表示。如上图AQ code所示。这样做就没有了正交的假设，此时 <em>codeword</em> 的表示能力也就越强。但是带来的副作用是计算开销的增大，具体来说这些 <em>Non-orthogonal MCQ</em> 方法都是在解如下这个问题：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C_1, ..., C_M} \sum\limits_{i=1}^N\| x_i - q(p(x_i)) \|_2^2 \tag {6}</script><script type="math/tex; mode=display">
+s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p>
+<script type="math/tex; mode=display">
+\min\limits_{C} \sum\limits_{i=1}^N\| x_i - \sum\limits_{j=1}^M c_{jk_j}\|_2^2 \tag{7}</script><p>$c_{jk_j}$ 表示第 $j$ 个codebook中的第 $k_j$ 个codeword。假设第 $j$ 个codebook $C_j$ 划分成 $m$ 等分，第 $z$ 份用 $C_{jz}$ 表示。那么如果给上式加上约束使得 $C_j$ 中除了 $C_{jj}$ ，其余部分的值都为0，则上式与PQ等价。这说明PQ方法是上式的一种特例。</p>
+<p>假设某一样本点 $x$ 对应的 <em>codeword</em> 是 $\sum\limits_{j=1}^M c_{jk_j}$, 那么在检索阶段，query $q$ 到样本 $x$ 的距离为</p>
+<script type="math/tex; mode=display">
+\| q - \sum\limits_{j=1}^M c_{jk_j} \|_2^2 = \| q \|_2^2 - 2\sum\limits_{j=1}^M q^Tc_{jk_j} +\sum\limits_{j_1=1}^M \sum\limits_{j_2=1}^M c_{j_1k_{j_1}}^T c_{j_2k_{j_2}}</script><p>其中第1项是常量，第二项可以和之前PQ的方法类似可以构建一张 <em>lookup table</em> ，关键是第三项的计算。根据第三项的不同，衍生出了PQ, AQ和，LSQ，LSQ++等一系列新的算法，目的就是为了加速计算。</p>
+<script type="math/tex; mode=display">\min\limits_{C,G} \| X-CG \|_F^2</script><p>其中$X \in R^{d \times n}, C=[C_1, C_2, …, C_M] \in R^{d\times Mk}, G = [g_1, g_2, …, g_n] \in R^{Mk \times n}$</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] T. Ge, K. He, Q. Ke, and J. Sun, “Optimized product quantization,” <em>IEEE transactions on pattern analysis and machine intelligence(TPAMI)</em>, vol. 36, no. 4, pp. 744-755, 2013.</p>
+<p>[2] Y. Kalantidis, Y. Avrithis, “Locally optimized product quantization for approximate nearest neighbor search,” in <em>IEEE Conference on Computer Vision and Pattern Recognition</em>(CVPR), 2014, pp. 2321-2328.</p>
+<p>[3] J. Martinez, S. Zakhmi, H. H. Hoos, and J. J. Little, “LSQ++: Lower running time and higher recall in multi-codebook quantization,” in <em>IEEE Proceedings of the European Conference on Computer Vision</em> (ECCV), 2018, pp. 491-506.</p>
 ]]></content>
       <categories>
         <category>ANN</category>
+        <category>quantization</category>
       </categories>
       <tags>
-        <tag>ANN</tag>
+        <tag>quantization</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Quantization Method In Approximate Nearest Neighbor Search</title>
+    <url>/2019/03/04/Quantization%20Method%20In%20Approximate%20Nearest%20Neighbor%20Search/</url>
+    <content><![CDATA[<h2 id="Approximate-Nearest-Neighbor-Search"><a href="#Approximate-Nearest-Neighbor-Search" class="headerlink" title="Approximate Nearest Neighbor Search"></a>Approximate Nearest Neighbor Search</h2><p>对于一个检索任务：给定一个<em>query</em> $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。</p>
+<script type="math/tex; mode=display">
+NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这个问题，最朴素的办法是使用 <strong><em>Exact Search</em></strong>，穷举 $q$ 到 $N$ 个样本点之间的距离，这样一定能准确地找到离 $q$ 最近的样本。但由于 <em>Exact Search</em> 的复杂度是 $O(ND)$，空间复杂度 $O(ND)$，而实际的应用场景中往往需要在<strong>毫秒级</strong>的响应时间同时对存储空间也有要求，数据规模稍大（million）的情况下便无法应用上。</p>
+<p>ANN主要思想是通过<strong>损失一部分检索精度来最大限度地换取检索速度的提升</strong>。目前主流的方法都是试图构建一种特殊的数据索引结构，大致可分为以下4类+用于辅助的索引结构方法：</p>
+<ol>
+<li>Tree: KD-Tree等；</li>
+<li>Hash: LSH, ITQ等；</li>
+<li>Quantization: PQ, OPQ, LSQ++等；</li>
+<li>Graph: HNSW, NSG等;</li>
+<li>auxiliary：IMI等。</li>
+</ol>
+<p>其中Tree、Hash和Quantization Based的方法一般是基于空间划分的思想，将空间划分成<em>cell/Voronoi</em>，然后利用上某些辅助的索引结构，可以在检索的过程中起到同时降低 $N$ 和 $D$ 来减少检索复杂度，如IVFPQ(PQ + Inverted Index)。</p>
+<p>Graph Based的方法一般需要构建 $K$ 近邻图，比起其他方法更占空间资源，但是检索精度一般更高。</p>
+<p>trade-off: recall, speed, memory.</p>
+<h2 id="Quantization-Method：A-Brief-Story"><a href="#Quantization-Method：A-Brief-Story" class="headerlink" title="Quantization Method：A Brief Story"></a>Quantization Method：A Brief Story</h2><p><strong>量化的目的就是减小原始空间的势(cardinality)</strong>。</p>
+<p>假定样本集 $X = [x_1, x_2,…,x_n] \in R^{d \times n}$ ，量化则试图找到一个<em>quantizer</em>(一种变换)将样本从 $R^{d \times n}$ 映射到一个有限的集合 $C = [c_1, c_2, … c_k]\in R^{d \times k}$ 中，映射之后的样本 $x_i$ 则可以用集合 $C$ 中的某一元素 $c_j$ <strong>表示</strong>，同时我们希望 $x_i$ 和 $c_j$ 的距离尽可能小。其中集合$C$ 也叫<em>codebook</em> ， $C$ 中每一个元素称为<em>codeword</em>。</p>
+<p>量化的过程可以看作是由一个编码器 $p$ 和解码器 $q$ 两个函数来表示。在给定$C$ 的前提下，$p$ 将样本编码成一个<em>index</em>，$q$ 则根据 $p$ 产生的<em>index</em>从 $C$ 中找出 <em>index</em> 对应的 <em>codeword</em> 。</p>
+<p>下面主要叙述近年来比较经典的量化方法，它们都可以看成是在优化同一个目标函数，只是不同的方法对应有不同的约束。</p>
+<h4 id="Vector-Quantization-VQ"><a href="#Vector-Quantization-VQ" class="headerlink" title="Vector Quantization(VQ)"></a>Vector Quantization(VQ)</h4><p>作为最经典的量化方法，VQ使用<em>MSE</em>来衡量量化效果：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {2} \label{eq: equ2}</script><p>当给定 <em>codebook</em> $C$ 时，上式满足 <em>Lloyd’s condition</em>: $p(x_i)$ 必须将 $x_i$ 映射到 $C$ 中离它最近的<em>codeword</em> 的 <em>index</em>。<em>Lloyd’s condition</em>不论当 <em>codebook</em> 是什么形式都必须被满足。上式等价于<em>K-means</em>，求解 $C$ 的过程也和<em>K-means</em>一样。其中$p(x) \in \{1, 2,…, k\}$ , 故原式也可以写成：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C, G \in Ind}\left\| X-CG \right\|_F^2 \tag {3}</script><p>此时，$C$ 表示 $k$ 个聚类中心，$G=[g_1, g_2,…, g_n] \in \{0, 1\}^{k \times n}$ 是<em>Indicator Matrix</em>，$g_i$ 只有第 $j$ 个元素为1，表示第 $i$ 个样本隶属第 $j$ 个聚类中心。</p>
+<p>由于我们将 $n$ 个样本映射成 $k$ 个<em>codeword</em>，于是我们也能知道每一个样本点所隶属的<em>codeword</em>。那么在检索阶段，<em>query</em>到每个样本点之间的距离，只需要通过计算<em>query</em>到这 $k$ 个<em>codeword</em>之间的距离得到一个长度为$k$ 的<em>lookup table</em>。假设样本点 $x_i$ 隶属于第 $j$ 个<em>codeword</em>，然后<em>query</em>到 $x_i$ 的距离就可以通过查找表的第 $j$ 个值来近似。</p>
+<p>训练过程等同于<em>K-means</em>，时间复杂度为 $O(ndk)$ ，空间复杂度为 $O((n+k)d)$ 。检索时计算<em>query</em>到 $n$ 个样本距离的空间复杂度为 $O(kd)$ ，时间复杂度为 $O(n+kd)$  。为了避免于<em>exact search</em>，我们可以建立一个<em>inverted file structure</em> $Z$，$Z$ 可以看作是一个<em>dictionary</em>，有 $k$ 个 <em>key</em>，第 $j$ 个<em>key</em>对应的<em>value</em>表示所有隶属于第$j$ 个<em>codeword</em>的样本的index组成的<em>List</em>。 那么当我们使用VQ来进行检索时，首先<em>query</em>只需要跟 $k$ 个<em>codeword</em>计算距离，假设找到离最近的<em>codeword</em>是 $c_j$ ，那么只需要在 $Z[j]$ 中的样本里头进行<em>exact search</em> 找到最近邻。</p>
+<p>通过实验发现，VQ一般具有如下性质：</p>
+<p>1.目标函数值越小，检索效果会越好；所以可以通过降低目标函数值来提升检索效果。</p>
+<p>2.$k$ 值越大，目标函数值会越小。所以可以通过增大 $k$ 来提升检索效果。</p>
+<p>我们可以想象，当$k$一直增大到$n$时，此时每个样本单独成一类，此时的VQ就等价<em>Exact Search</em>，<em>recall</em>能达到最好，但是却不适用。实际使用中由于存储设备和检索时间的约束，$k$ 值一般不会取得特别大。</p>
+<h4 id="Product-Quantization-PQ"><a href="#Product-Quantization-PQ" class="headerlink" title="Product Quantization(PQ)"></a>Product Quantization(PQ)</h4><p>2012年，<strong>Hervé Jégou</strong>等人提出了PQ，其主要思想是将原始 $d$ 维样本空间等长度切分为 $m$ 个正交的子空间，每个子空间的维度是 $\frac{d}{m}$, 由此在<em>ANN</em>领域中开辟了新的方向，吸引了很多学者的关注。 PQ问题可以表述成下式：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C_1, C_2, ..., C_m}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {4} \label{eq: equ4}</script><script type="math/tex; mode=display">
+s.t. q \in C = C_1 \times C_2 \times ... \times C_m​</script><p> $C_j$ 表示第 $j$ 个子空间的<em>codebook</em>，式 $\eqref{eq: eq4} $ 在式 $\eqref{eq: eq2} $ 的基础上对<em>codebook</em>加上了约束，使得此时的<em>codebook</em> $C$ 由每一个子空间的<em>codebook</em>的笛卡儿积构成。这么做最大的好处就是在与<em>K-means</em>在使用相同的<em>codebook</em>存储容量的情况下，能表示更多的codeword。假设聚类个数 $k$ 取256，PQ的每一个<em>codebook</em> 有256个<em>codeword</em> ,当 $m$ 取4，此时那么PQ方法能表示的codeword的总数是 $256^4$ ，远多于 <em>k-means</em> 所能表示的256个。</p>
+<p><img src="/2019/03/04/Quantization Method In Approximate Nearest Neighbor Search/pq_1.png" alt="pq_1"></p>
+<p>该问题的优化过程等价于对 $m$ 个子空间分别进行<em>K-means</em>。</p>
+<p>检索时的时间复杂度为 $O(kd+nm)$ ，空间复杂度为 $O(kd+nm)$ 。</p>
+<p>为了进一步加快检索过程，作者在PQ的基础上加上了基于<em>k-means</em>的<em>Inverted file structure</em>, 第 $i$ 个 <em>inverted list</em> 存储的是隶属第 $i$ 类样本的id和样本到聚类中心的残差经过PQ编码之后的code。此时的<em>k-means</em> 可以被看作是粗过滤，目的是减少query所需遍历的样本个数。</p>
+<p><img src="/2019/03/04/Quantization Method In Approximate Nearest Neighbor Search/pq_2.png" alt="pq_2"></p>
+<h4 id="Optimized-Product-Quantization-OPQ"><a href="#Optimized-Product-Quantization-OPQ" class="headerlink" title="Optimized Product Quantization(OPQ)"></a>Optimized Product Quantization(OPQ)</h4><p><img src="/2019/03/04/Quantization Method In Approximate Nearest Neighbor Search/opq_1.png" alt="opq_1"></p>
+<p>前面已经说到，使用<em>k-means</em> 时增大 $k$ 对量化误差最小化是有好处的，但是实际中往往受限于内存和时间。而且$k$ 过大训练阶段的开销也成问题，所以实际中并不常用。PQ能够很好的增大 $k$ 来减小量化误差，如上图 $(b)$ 所示，在每个子空间只聚了8个类。仔细观察我们可以发现， $(b)$ 中的样本点并没有很好的“附着“在 <em>codeword</em> 上，如果此时对数据/样本点做一个旋转变化，可以使更多中心附着在样本上，使得目标函数值进一步减小，如 $(c)$ 。</p>
+<p><img src="/2019/03/04/Quantization Method In Approximate Nearest Neighbor Search/opq_2.png" alt="opq_2"></p>
+<p>在PQ的基础上，寻找一个最优的旋转矩阵 $R$ 使量化误差最小，可以表述成如下优化问题：</p>
+<script type="math/tex; mode=display">
+\min\limits_{R, C_1, ..., C_M} \sum\limits_{i=1}^N\| x_i - q(p(x_i)) \|_2^2 \tag{5}</script><script type="math/tex; mode=display">
+s.t. q\in C = \{Rc^{'} | c^{'} \in C_1\times C_2 \times ... \times C_M, R^TR=I \}</script><p>该问题可以使用交替优化的方式求解：</p>
+<p>1.Fix $R$：原问题 $(5)$ 等价于PQ问题；</p>
+<p>2.Fix $C_1, C_2,…,C_M$：令 $Y=[y_1, y_2,…y_N]$ ，$y_i$ 对应 $x_i$ 隶属的<em>codeword</em> ,  $(5)$等价于</p>
+<script type="math/tex; mode=display">
+\min\limits_R \| X-RY \|_F^2</script><p>该问题是一个典型的<em>Orthogonal Procrustes Problem</em>，</p>
+<script type="math/tex; mode=display">
+\begin{align}
+R & =\arg \min\limits_R \| RY-X \|_F^2 \\
+  & =\arg \min \|Y\|_F^2 + \|X\|_F^2 - 2<RY, X> \\
+  & = \arg \max <R, XY^T> \\
+  & = \arg \max <R, U\Sigma V^T> \\
+  & = \arg \max <U^TRV, \Sigma> \\
+\end{align}</script><p>由于$U^TRV$ 是正交矩阵，所以$I = U^TRV$ , $R = UV^T$ .</p>
+<h4 id="Locally-optimized-product-quantization-LOPQ"><a href="#Locally-optimized-product-quantization-LOPQ" class="headerlink" title="Locally optimized product quantization(LOPQ)"></a>Locally optimized product quantization(LOPQ)</h4><p>在IVFPQ的基础上，对inverted file structure中每一个inverted list中的残差向量进行OPQ。</p>
+<h4 id="Non-orthogonal-Multi-Codebook-Quantization-MCQ"><a href="#Non-orthogonal-Multi-Codebook-Quantization-MCQ" class="headerlink" title="Non-orthogonal Multi-Codebook Quantization(MCQ)"></a>Non-orthogonal Multi-Codebook Quantization(MCQ)</h4><p>前面基于PQ的方法都是假设样本具有 $M$ 个相互正交的属性组，然后在这 $M$ 个属性组中进行 <em>k-means</em> 产生 $M$ 个正交的 <em>codebook</em>，于是每一个向量 $x$ 都可以由分别从这 $M$ 个<em>codebook</em>中选取的一个<em>codeword</em>进行拼接后的向量来表示。在实际中，数据的每一个属性往往都不是正交的，所以实际中量化的效果还是有进一步的的提升空间。如下图PQ code所示。</p>
+<p><img src="/2019/03/04/Quantization Method In Approximate Nearest Neighbor Search/mcq_1.png" alt="mcq_1"></p>
+<p>最近的工作更多关注于使用 $M$ 个非正交的<em>codebook</em>对向量进行表示，每一个向量 $x$ 都可以由分别从这 $M$ 个<em>codebook</em> 中选取的一个<em>codeword</em> 相加后的向量来表示。如上图AQ code所示。这样做就没有了正交的假设，此时 <em>codeword</em> 的表示能力也就越强。但是带来的副作用是计算开销的增大，具体来说这些 <em>Non-orthogonal MCQ</em> 方法都是在解如下这个问题：</p>
+<script type="math/tex; mode=display">
+\min\limits_{C_1, ..., C_M} \sum\limits_{i=1}^N\| x_i - q(p(x_i)) \|_2^2 \tag {6}</script><script type="math/tex; mode=display">
+s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p>
+<script type="math/tex; mode=display">
+\min\limits_{C} \sum\limits_{i=1}^N\| x_i - \sum\limits_{j=1}^M c_{jk_j}\|_2^2 \tag{7}</script><p>$c_{jk_j}$ 表示第 $j$ 个codebook中的第 $k_j$ 个codeword。假设第 $j$ 个codebook $C_j$ 划分成 $m$ 等分，第 $z$ 份用 $C_{jz}$ 表示。那么如果给上式加上约束使得 $C_j$ 中除了 $C_{jj}$ ，其余部分的值都为0，则上式与PQ等价。这说明PQ方法是上式的一种特例。</p>
+<p>假设某一样本点 $x$ 对应的 <em>codeword</em> 是 $\sum\limits_{j=1}^M c_{jk_j}$, 那么在检索阶段，query $q$ 到样本 $x$ 的距离为</p>
+<script type="math/tex; mode=display">
+\| q - \sum\limits_{j=1}^M c_{jk_j} \|_2^2 = \| q \|_2^2 - 2\sum\limits_{j=1}^M q^Tc_{jk_j} +\sum\limits_{j_1=1}^M \sum\limits_{j_2=1}^M c_{j_1k_{j_1}}^T c_{j_2k_{j_2}}</script><p>其中第1项是常量，第二项可以和之前PQ的方法类似可以构建一张 <em>lookup table</em> ，关键是第三项的计算。根据第三项的不同，衍生出了PQ, AQ和，LSQ，LSQ++等一系列新的算法，目的就是为了加速计算。</p>
+<script type="math/tex; mode=display">\min\limits_{C,G} \| X-CG \|_F^2</script><p>其中$X \in R^{d \times n}, C=[C_1, C_2, …, C_M] \in R^{d\times Mk}, G = [g_1, g_2, …, g_n] \in R^{Mk \times n}$</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] T. Ge, K. He, Q. Ke, and J. Sun, “Optimized product quantization,” <em>IEEE transactions on pattern analysis and machine intelligence(TPAMI)</em>, vol. 36, no. 4, pp. 744-755, 2013.</p>
+<p>[2] Y. Kalantidis, Y. Avrithis, “Locally optimized product quantization for approximate nearest neighbor search,” in <em>IEEE Conference on Computer Vision and Pattern Recognition</em>(CVPR), 2014, pp. 2321-2328.</p>
+<p>[3] J. Martinez, S. Zakhmi, H. H. Hoos, and J. J. Little, “LSQ++: Lower running time and higher recall in multi-codebook quantization,” in <em>IEEE Proceedings of the European Conference on Computer Vision</em> (ECCV), 2018, pp. 491-506.</p>
+]]></content>
+      <categories>
+        <category>ANN</category>
+        <category>quantization</category>
+      </categories>
+      <tags>
+        <tag>quantization</tag>
       </tags>
   </entry>
 </search>

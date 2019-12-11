@@ -71,108 +71,11 @@
   </entry>
   
   <entry>
-    <title>HNSW</title>
-    <link href="https://yuchaoy.github.io/2019/04/02/HNSW/"/>
-    <id>https://yuchaoy.github.io/2019/04/02/HNSW/</id>
-    <published>2019-04-02T13:26:15.000Z</published>
-    <updated>2019-04-02T13:33:21.448Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          
-        
-      
-    
-    </summary>
-    
-    
-      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
-    
-      <category term="Graph" scheme="https://yuchaoy.github.io/categories/ANN/Graph/"/>
-    
-    
-      <category term="HNSW" scheme="https://yuchaoy.github.io/tags/HNSW/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ITQ</title>
-    <link href="https://yuchaoy.github.io/2019/03/13/ITQ/"/>
-    <id>https://yuchaoy.github.io/2019/03/13/ITQ/</id>
-    <published>2019-03-13T14:44:15.000Z</published>
-    <updated>2019-03-27T14:46:50.488Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          
-        
-      
-    
-    </summary>
-    
-    
-      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
-    
-      <category term="Quantization" scheme="https://yuchaoy.github.io/categories/ANN/Quantization/"/>
-    
-    
-      <category term="Procrustean" scheme="https://yuchaoy.github.io/tags/Procrustean/"/>
-    
-      <category term="Binary Code" scheme="https://yuchaoy.github.io/tags/Binary-Code/"/>
-    
-      <category term="Similarity Preserving" scheme="https://yuchaoy.github.io/tags/Similarity-Preserving/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>IVFPQ</title>
-    <link href="https://yuchaoy.github.io/2019/03/12/IVFPQ/"/>
-    <id>https://yuchaoy.github.io/2019/03/12/IVFPQ/</id>
-    <published>2019-03-12T14:19:09.000Z</published>
-    <updated>2019-03-13T14:55:54.771Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          
-        
-      
-    
-    </summary>
-    
-    
-      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
-    
-      <category term="Quantization" scheme="https://yuchaoy.github.io/categories/ANN/Quantization/"/>
-    
-      <category term="PQ" scheme="https://yuchaoy.github.io/categories/ANN/Quantization/PQ/"/>
-    
-    
-      <category term="VQ" scheme="https://yuchaoy.github.io/tags/VQ/"/>
-    
-      <category term="PQ" scheme="https://yuchaoy.github.io/tags/PQ/"/>
-    
-      <category term="IVFADC" scheme="https://yuchaoy.github.io/tags/IVFADC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Approximate Nearest Neighbor Search 初探</title>
-    <link href="https://yuchaoy.github.io/2019/03/04/ANN/"/>
-    <id>https://yuchaoy.github.io/2019/03/04/ANN/</id>
+    <title>Quantization Method In Approximate Nearest Neighbor Search</title>
+    <link href="https://yuchaoy.github.io/2019/03/04/QuantizationANN/"/>
+    <id>https://yuchaoy.github.io/2019/03/04/QuantizationANN/</id>
     <published>2019-03-04T08:19:52.000Z</published>
-    <updated>2019-04-01T07:53:50.870Z</updated>
+    <updated>2019-12-11T08:38:53.626Z</updated>
     
     <summary type="html">
     
@@ -189,8 +92,39 @@
     
       <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
     
+      <category term="quantization" scheme="https://yuchaoy.github.io/categories/ANN/quantization/"/>
     
-      <category term="ANN" scheme="https://yuchaoy.github.io/tags/ANN/"/>
+    
+      <category term="quantization" scheme="https://yuchaoy.github.io/tags/quantization/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Quantization Method In Approximate Nearest Neighbor Search</title>
+    <link href="https://yuchaoy.github.io/2019/03/04/Quantization%20Method%20In%20Approximate%20Nearest%20Neighbor%20Search/"/>
+    <id>https://yuchaoy.github.io/2019/03/04/Quantization Method In Approximate Nearest Neighbor Search/</id>
+    <published>2019-03-04T08:19:52.000Z</published>
+    <updated>2019-12-11T08:48:58.537Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+      <category term="ANN" scheme="https://yuchaoy.github.io/categories/ANN/"/>
+    
+      <category term="quantization" scheme="https://yuchaoy.github.io/categories/ANN/quantization/"/>
+    
+    
+      <category term="quantization" scheme="https://yuchaoy.github.io/tags/quantization/"/>
     
   </entry>
   
