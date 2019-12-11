@@ -89,16 +89,16 @@
 <meta property="og:site_name" content="Yuchao Yuan">
 <meta property="og:description" content="Approximate Nearest Neighbor Search对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/Users/yuany/AppData/Roaming/Typora/typora-user-images/1555681620379.png">
-<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/Users/yuany/AppData/Roaming/Typora/typora-user-images/1555570709941.png">
-<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/Users/yuany/AppData/Roaming/Typora/typora-user-images/1555841142269.png">
-<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/Users/yuany/AppData/Roaming/Typora/typora-user-images/1555841179115.png">
-<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/Users/yuany/AppData/Roaming/Typora/typora-user-images/1555572134655.png">
-<meta property="og:updated_time" content="2019-12-11T08:38:53.626Z">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/pq_1.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/pq_2.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/opq_1.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/opq_2.png">
+<meta property="og:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/mcq_1.png">
+<meta property="og:updated_time" content="2019-12-11T08:54:06.194Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Quantization Method In Approximate Nearest Neighbor Search">
 <meta name="twitter:description" content="Approximate Nearest Neighbor Search对于一个检索任务：给定一个query $q \in R^D$，需要在数据集 $X \in R^{N \times D}$ 中找到距离 $q$ 最近的样本，距离度量函数 $d$ 一般使用欧式距离。  NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}想要解决这个问题，最朴素的办法">
-<meta name="twitter:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/Users/yuany/AppData/Roaming/Typora/typora-user-images/1555681620379.png">
+<meta name="twitter:image" content="https://yuchaoy.github.io/2019/03/04/QuantizationANN/pq_1.png">
 
 
 
@@ -410,7 +410,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  2.8k
+                  2.7k
                 </span>
               
 
@@ -480,14 +480,14 @@ NN(q) = \arg \min\limits_{x \in X} d(q, x) \tag {1}</script><p>想要解决这�
 <script type="math/tex; mode=display">
 \min\limits_{C_1, C_2, ..., C_m}\sum\limits_{i=1}^{N}\| x_i - q(p(x_i))\|_2^2​\tag {4} \label{eq: equ4}</script><script type="math/tex; mode=display">
 s.t. q \in C = C_1 \times C_2 \times ... \times C_m​</script><p> $C_j$ 表示第 $j$ 个子空间的<em>codebook</em>，式 $\eqref{eq: eq4} $ 在式 $\eqref{eq: eq2} $ 的基础上对<em>codebook</em>加上了约束，使得此时的<em>codebook</em> $C$ 由每一个子空间的<em>codebook</em>的笛卡儿积构成。这么做最大的好处就是在与<em>K-means</em>在使用相同的<em>codebook</em>存储容量的情况下，能表示更多的codeword。假设聚类个数 $k$ 取256，PQ的每一个<em>codebook</em> 有256个<em>codeword</em> ,当 $m$ 取4，此时那么PQ方法能表示的codeword的总数是 $256^4$ ，远多于 <em>k-means</em> 所能表示的256个。</p>
-<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555681620379.png" alt="1555681620379"></p>
+<p><img src="/2019/03/04/QuantizationANN/pq_1.png" alt="pq_1"></p>
 <p>该问题的优化过程等价于对 $m$ 个子空间分别进行<em>K-means</em>。</p>
 <p>检索时的时间复杂度为 $O(kd+nm)$ ，空间复杂度为 $O(kd+nm)$ 。</p>
 <p>为了进一步加快检索过程，作者在PQ的基础上加上了基于<em>k-means</em>的<em>Inverted file structure</em>, 第 $i$ 个 <em>inverted list</em> 存储的是隶属第 $i$ 类样本的id和样本到聚类中心的残差经过PQ编码之后的code。此时的<em>k-means</em> 可以被看作是粗过滤，目的是减少query所需遍历的样本个数。</p>
-<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555570709941.png" alt="1555570709941"></p>
-<h4 id="Optimized-Product-Quantization-OPQ"><a href="#Optimized-Product-Quantization-OPQ" class="headerlink" title="Optimized Product Quantization(OPQ)"></a>Optimized Product Quantization(OPQ)</h4><p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555841142269.png" alt="1555841142269"></p>
+<p><img src="/2019/03/04/QuantizationANN/pq_2.png" alt="pq_2"></p>
+<h4 id="Optimized-Product-Quantization-OPQ"><a href="#Optimized-Product-Quantization-OPQ" class="headerlink" title="Optimized Product Quantization(OPQ)"></a>Optimized Product Quantization(OPQ)</h4><p><img src="/2019/03/04/QuantizationANN/opq_1.png" alt="opq_1"></p>
 <p>前面已经说到，使用<em>k-means</em> 时增大 $k$ 对量化误差最小化是有好处的，但是实际中往往受限于内存和时间。而且$k$ 过大训练阶段的开销也成问题，所以实际中并不常用。PQ能够很好的增大 $k$ 来减小量化误差，如上图 $(b)$ 所示，在每个子空间只聚了8个类。仔细观察我们可以发现， $(b)$ 中的样本点并没有很好的“附着“在 <em>codeword</em> 上，如果此时对数据/样本点做一个旋转变化，可以使更多中心附着在样本上，使得目标函数值进一步减小，如 $(c)$ 。</p>
-<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555841179115.png" alt="1555841179115"></p>
+<p><img src="/2019/03/04/QuantizationANN/opq_2.png" alt="opq_2"></p>
 <p>在PQ的基础上，寻找一个最优的旋转矩阵 $R$ 使量化误差最小，可以表述成如下优化问题：</p>
 <script type="math/tex; mode=display">
 \min\limits_{R, C_1, ..., C_M} \sum\limits_{i=1}^N\| x_i - q(p(x_i)) \|_2^2 \tag{5}</script><script type="math/tex; mode=display">
@@ -506,7 +506,7 @@ R & =\arg \min\limits_R \| RY-X \|_F^2 \\
 \end{align}</script><p>由于$U^TRV$ 是正交矩阵，所以$I = U^TRV$ , $R = UV^T$ .</p>
 <h4 id="Locally-optimized-product-quantization-LOPQ"><a href="#Locally-optimized-product-quantization-LOPQ" class="headerlink" title="Locally optimized product quantization(LOPQ)"></a>Locally optimized product quantization(LOPQ)</h4><p>在IVFPQ的基础上，对inverted file structure中每一个inverted list中的残差向量进行OPQ。</p>
 <h4 id="Non-orthogonal-Multi-Codebook-Quantization-MCQ"><a href="#Non-orthogonal-Multi-Codebook-Quantization-MCQ" class="headerlink" title="Non-orthogonal Multi-Codebook Quantization(MCQ)"></a>Non-orthogonal Multi-Codebook Quantization(MCQ)</h4><p>前面基于PQ的方法都是假设样本具有 $M$ 个相互正交的属性组，然后在这 $M$ 个属性组中进行 <em>k-means</em> 产生 $M$ 个正交的 <em>codebook</em>，于是每一个向量 $x$ 都可以由分别从这 $M$ 个<em>codebook</em>中选取的一个<em>codeword</em>进行拼接后的向量来表示。在实际中，数据的每一个属性往往都不是正交的，所以实际中量化的效果还是有进一步的的提升空间。如下图PQ code所示。</p>
-<p><img src="/2019/03/04/QuantizationANN/Users\yuany\AppData\Roaming\Typora\typora-user-images\1555572134655.png" alt="1555572134655"></p>
+<p><img src="/2019/03/04/QuantizationANN/mcq_1.png" alt="mcq_1"></p>
 <p>最近的工作更多关注于使用 $M$ 个非正交的<em>codebook</em>对向量进行表示，每一个向量 $x$ 都可以由分别从这 $M$ 个<em>codebook</em> 中选取的一个<em>codeword</em> 相加后的向量来表示。如上图AQ code所示。这样做就没有了正交的假设，此时 <em>codeword</em> 的表示能力也就越强。但是带来的副作用是计算开销的增大，具体来说这些 <em>Non-orthogonal MCQ</em> 方法都是在解如下这个问题：</p>
 <script type="math/tex; mode=display">
 \min\limits_{C_1, ..., C_M} \sum\limits_{i=1}^N\| x_i - q(p(x_i)) \|_2^2 \tag {6}</script><script type="math/tex; mode=display">
@@ -516,7 +516,6 @@ s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p
 <p>假设某一样本点 $x$ 对应的 <em>codeword</em> 是 $\sum\limits_{j=1}^M c_{jk_j}$, 那么在检索阶段，query $q$ 到样本 $x$ 的距离为</p>
 <script type="math/tex; mode=display">
 \| q - \sum\limits_{j=1}^M c_{jk_j} \|_2^2 = \| q \|_2^2 - 2\sum\limits_{j=1}^M q^Tc_{jk_j} +\sum\limits_{j_1=1}^M \sum\limits_{j_2=1}^M c_{j_1k_{j_1}}^T c_{j_2k_{j_2}}</script><p>其中第1项是常量，第二项可以和之前PQ的方法类似可以构建一张 <em>lookup table</em> ，关键是第三项的计算。根据第三项的不同，衍生出了PQ, AQ和，LSQ，LSQ++等一系列新的算法，目的就是为了加速计算。</p>
-<script type="math/tex; mode=display">\min\limits_{C,G} \| X-CG \|_F^2</script><p>其中$X \in R^{d \times n}, C=[C_1, C_2, …, C_M] \in R^{d\times Mk}, G = [g_1, g_2, …, g_n] \in R^{Mk \times n}$</p>
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] T. Ge, K. He, Q. Ke, and J. Sun, “Optimized product quantization,” <em>IEEE transactions on pattern analysis and machine intelligence(TPAMI)</em>, vol. 36, no. 4, pp. 744-755, 2013.</p>
 <p>[2] Y. Kalantidis, Y. Avrithis, “Locally optimized product quantization for approximate nearest neighbor search,” in <em>IEEE Conference on Computer Vision and Pattern Recognition</em>(CVPR), 2014, pp. 2321-2328.</p>
 <p>[3] J. Martinez, S. Zakhmi, H. H. Hoos, and J. J. Little, “LSQ++: Lower running time and higher recall in multi-codebook quantization,” in <em>IEEE Proceedings of the European Conference on Computer Vision</em> (ECCV), 2018, pp. 491-506.</p>
@@ -549,10 +548,6 @@ s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/03/04/Quantization Method In Approximate Nearest Neighbor Search/" rel="next" title="Quantization Method In Approximate Nearest Neighbor Search">
-                <i class="fa fa-chevron-left"></i> Quantization Method In Approximate Nearest Neighbor Search
-              </a>
             
           </div>
 
@@ -648,7 +643,7 @@ s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -762,7 +757,7 @@ s.t. q \in C = \{c | c = \sum\limits_{j=1}^M c_{jk_j} \}</script><p>等价于</p
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">12.1k</span>
+    <span title="Site words total count">9.3k</span>
   
 </div>
 
